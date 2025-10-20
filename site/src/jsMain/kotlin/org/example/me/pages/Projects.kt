@@ -17,7 +17,7 @@ import org.jetbrains.compose.web.dom.Div
 @Page
 @Composable
 @Layout(".components.layouts.PageMainLayout")
-fun HomePage(ctx: PageContext) {
+fun ProjectsPage(ctx: PageContext) {
     var colorMode by ColorMode.currentState
     Div(attrs = {
         id("pageContainer")
