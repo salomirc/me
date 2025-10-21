@@ -1,10 +1,8 @@
 package org.example.me.components.sections
 
 import androidx.compose.runtime.*
-import com.varabyte.kobweb.compose.foundation.layout.Box
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.modifiers.padding
-import com.varabyte.kobweb.compose.ui.modifiers.width
 import com.varabyte.kobweb.core.PageContext
 import com.varabyte.kobweb.core.rememberPageContext
 import com.varabyte.kobweb.navigation.BasePath
@@ -41,7 +39,7 @@ fun NavHeader() {
     }
 
     var selectedButton by remember { mutableStateOf(navItems[0]) }
-    var isMobileMenu by remember { mutableStateOf(false) }
+    var isMobileMenuOpen by remember { mutableStateOf(false) }
 
     LaunchedEffect(currentPath) {
         console.log("ctx.route.path = $currentPath")
@@ -66,7 +64,7 @@ fun NavHeader() {
         IconButton(
             styles = listOf(AppStyles.siteStyleSheet.barsMenuClass),
             onClick = {
-                isMobileMenu = !isMobileMenu
+                isMobileMenuOpen = !isMobileMenuOpen
             },
             backgroundColor = Color.transparent,
             content = {
@@ -107,7 +105,7 @@ fun NavHeader() {
     }
     Div(attrs = {
         classes(
-            if (isMobileMenu) {
+            if (isMobileMenuOpen) {
                 AppStyles.siteStyleSheet.mobileMenuClass
             } else {
                 AppStyles.siteStyleSheet.displayNone
