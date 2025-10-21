@@ -123,7 +123,6 @@ class SiteStyleSheet(val sitePalette: SitePalette) : StyleSheet() {
         margin(8.px)
         borderRadius(10.percent)
         objectFit(ObjectFit.Cover)
-        backgroundColor(Color.yellow)
 
         // media query
         media(
