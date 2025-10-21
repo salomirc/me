@@ -31,28 +31,39 @@ data class SitePalette(
 object SitePalettes {
     val light = SitePalette(
         siteColor = Colors.Black,
-        siteColorInverse = Colors.Gray,
+        siteColorInverse = Colors.White,
         nearBackground = Color.rgb(0xe4e4e4),
         cobweb = Colors.LightGray,
         brand = SitePalette.Brand(
-            primary = Color.rgb(0x3C83EF),
-            accent = Color.rgb(0xFCBA03),
+            primary = SiteColors.darkGray,
+            accent = SiteColors.blueMarin,
         ),
         surfaceVariant = Colors.LightBlue,
         overlayTransparent = Color.rgba(0, 0, 0, 0.1f)
     )
     val dark = SitePalette(
-        siteColor = Colors.Gray,
+        siteColor = SiteColors.lightGray,
         siteColorInverse = Colors.Black,
         nearBackground = Color.rgb(0x13171F),
         cobweb = Colors.LightGray.inverted(),
         brand = SitePalette.Brand(
-            primary = Color.rgb(0x3C83EF),
-            accent = Color.rgb(0xF3DB5B),
+            primary = SiteColors.heavyDarkGray,
+            accent = SiteColors.blueMarin,
         ),
         surfaceVariant = Colors.DarkSlateBlue,
         overlayTransparent = Color.rgba(255, 255, 255, 0.1f)
     )
+}
+
+object SiteColors {
+    val binayShawGray = Color.rgb(0x696969)
+    val darkGray = Color.rgb(0x363636)
+    val heavyDarkGray = Color.rgb(0x181818)
+    val blueMarin = Color.rgb(0x4b959f)
+    val lightGray = Color.rgb(0xe8e8e8)
+    val yellow = Color.rgb(0xfae88a)
+    val ocru = Color.rgb(0xbab15b)
+    val occruLight = Color.rgb(0xdad86c)
 }
 
 fun ColorMode.toSitePalette(): SitePalette {
@@ -67,5 +78,5 @@ fun initTheme(ctx: InitSilkContext) {
     ctx.theme.palettes.light.background = Color.rgb(0xFAFAFA)
     ctx.theme.palettes.light.color = Colors.Black
     ctx.theme.palettes.dark.background = Color.rgb(0x06080B)
-    ctx.theme.palettes.dark.color = Colors.Gray
+    ctx.theme.palettes.dark.color = Colors.White
 }

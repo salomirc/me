@@ -1,7 +1,14 @@
 package org.example.me
 
+import com.varabyte.kobweb.compose.css.FontWeight
+import com.varabyte.kobweb.compose.css.Height
+import com.varabyte.kobweb.compose.css.ObjectFit
+import com.varabyte.kobweb.compose.css.Width
 import com.varabyte.kobweb.compose.css.borderBottom
-import com.varabyte.kobweb.compose.css.transitionDuration
+import com.varabyte.kobweb.compose.css.fontWeight
+import com.varabyte.kobweb.compose.css.height
+import com.varabyte.kobweb.compose.css.objectFit
+import com.varabyte.kobweb.compose.css.width
 import org.jetbrains.compose.web.css.*
 
 object AppStyles {
@@ -9,17 +16,29 @@ object AppStyles {
 }
 
 class SiteStyleSheet(val sitePalette: SitePalette) : StyleSheet() {
+    init {
+        "html" style {
+            // 62.5% of 16px = 10px
+            fontSize(62.5.percent)
+        }
+
+        "body" style {
+            // 160% of 10px = 16px
+            fontSize(160.percent)
+        }
+    }
+
     val navBarContainer by style {
         display(DisplayStyle.Flex)
         flexDirection(FlexDirection.Row)
         justifyContent(JustifyContent.End)
         alignItems(AlignItems.FlexEnd)
         padding(16.px, 4.px, 0.px, 4.px)
-        backgroundColor(sitePalette.nearBackground)
+        backgroundColor(sitePalette.brand.primary)
         borderBottom {
-            width = 4.px
+            width = 8.px
             style = LineStyle.Solid
-            color = sitePalette.brand.primary
+            color = sitePalette.brand.accent
         }
 
         // media query
@@ -44,26 +63,76 @@ class SiteStyleSheet(val sitePalette: SitePalette) : StyleSheet() {
         }
     }
 
-    val aboutImageContainerClass by style {
+    val homePageContainerClass by style {
         display(DisplayStyle.Flex)
-        justifyContent(JustifyContent.Center)
+        flexDirection(FlexDirection.Row)
+        justifyContent(JustifyContent.FlexStart)
         alignItems(AlignItems.Center)
-        paddingBottom(20.px)
+        height(80.vh)
+        // media query
+        media(
+            query = screenMaxWidth640pxMediaQuery
+        ) {
+            self style {
+                flexDirection(FlexDirection.Column)
+                height(Height.FitContent)
+            }
+        }
+    }
+
+    val helloComposableClass by style {
+        display(DisplayStyle.Flex)
+        flexDirection(FlexDirection.Column)
+        justifyContent(JustifyContent.Center)
+        alignItems(AlignItems.FlexStart)
+
+        width(Width.FitContent)
+        padding(10.vw)
+
+        fontFamily("Verdana")
+        fontSize(3.vw)
+        color(SiteColors.binayShawGray)
 
         // media query
         media(
             query = screenMaxWidth640pxMediaQuery
         ) {
             self style {
-                alignItems(AlignItems.FlexStart)
+                fontSize(6.vw)
+            }
+        }
+    }
+
+    val nameDivClass by style {
+        fontSize(5.vw)
+        fontWeight(FontWeight.Black)
+        color(sitePalette.siteColor)
+
+        // media query
+        media(
+            query = screenMaxWidth640pxMediaQuery
+        ) {
+            self style {
+                fontSize(10.vw)
             }
         }
     }
 
     val aboutImageClass by style {
-        maxHeight(50.vh)
-        maxWidth(50.percent)
+        width(30.vw)
+        margin(8.px)
         borderRadius(10.percent)
+        objectFit(ObjectFit.Cover)
+        backgroundColor(Color.yellow)
+
+        // media query
+        media(
+            query = screenMaxWidth640pxMediaQuery
+        ) {
+            self style {
+                width(70.vw)
+            }
+        }
     }
 
     val mobileMenuClass by style {
@@ -84,36 +153,17 @@ class SiteStyleSheet(val sitePalette: SitePalette) : StyleSheet() {
 
     val iconButtonClass by style {
         borderRadius(4.px, 4.px, 0.px, 0.px)
-        color(sitePalette.siteColor)
+        color(SiteColors.lightGray)
         backgroundColor(Color.transparent)
         borderWidth(0.px)
         padding(8.px, 16.px)
-        margin(1.px, 1.px, 0.px, 1.px)
+        margin(1.px, 4.px, 0.px, 4.px)
         cursor("pointer")
     }
 
-    val regularButtonClass by style {
-        backgroundColor(Color.transparent)
-        borderWidth(0.px)
-        borderRadius(12.px)
-        padding(8.px)
-        textAlign("center")
-        textDecoration("none")
-        fontSize(14.px)
-        margin(4.px, 2.px)
-        transitionDuration(0.4.s)
-        cursor("pointer")
-
-        // hover selector for a class
-        self + hover style { // self is a selector for `container`
-            backgroundColor(sitePalette.brand.primary)
-            color(sitePalette.siteColorInverse)
-        }
-    }
-
-    val regularButtonClassSelected by style {
-        color(sitePalette.nearBackground)
-        backgroundColor(sitePalette.brand.primary)
+    val textIconButtonClassSelected by style {
+        color(SiteColors.yellow)
+        backgroundColor(sitePalette.brand.accent)
     }
 
     val displayNoneMax640pxMediaQuery by style {

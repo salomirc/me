@@ -7,7 +7,7 @@ import com.varabyte.kobweb.core.Page
 import com.varabyte.kobweb.core.PageContext
 import com.varabyte.kobweb.core.layout.Layout
 import com.varabyte.kobweb.silk.theme.colors.ColorMode
-import org.example.kobwebemptyproject.components.widgets.NumberBox
+import org.example.me.components.widgets.NumberBox
 import org.jetbrains.compose.web.css.DisplayStyle
 import org.jetbrains.compose.web.css.FlexWrap
 import org.jetbrains.compose.web.css.display

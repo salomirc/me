@@ -13,10 +13,11 @@ import com.varabyte.kobweb.silk.components.icons.SunIcon
 import com.varabyte.kobweb.silk.components.icons.fa.FaIcon
 import com.varabyte.kobweb.silk.components.icons.fa.IconCategory
 import com.varabyte.kobweb.silk.theme.colors.ColorMode
-import org.example.kobwebemptyproject.components.widgets.IconButton
-import org.example.kobwebemptyproject.components.widgets.TextIconButton
+import org.example.me.components.widgets.IconButton
+import org.example.me.components.widgets.TextIconButton
 import org.example.kobwebemptyproject.models.ui.NavItem
 import org.example.me.AppStyles
+import org.example.me.SiteColors
 import org.example.me.toSitePalette
 import org.jetbrains.compose.web.css.*
 import org.jetbrains.compose.web.dom.A
@@ -76,7 +77,11 @@ fun NavHeader() {
                 )
             }
         )
-        Box(modifier = Modifier.width(20.px))
+        Div(attrs = {
+            style {
+                width(20.px)
+            }
+        })
         IconButton(
             onClick = {
                 colorMode = colorMode.opposite
@@ -118,8 +123,8 @@ fun NavHeader() {
                         display(DisplayStyle.Block)
                         padding(10.px)
                         margin(10.px, 0.px)
-                        color(colorMode.toSitePalette().siteColor)
-                        backgroundColor(colorMode.toSitePalette().nearBackground)
+                        color(SiteColors.lightGray)
+                        backgroundColor(colorMode.toSitePalette().brand.primary)
                         textAlign("center")
                     }
                 }

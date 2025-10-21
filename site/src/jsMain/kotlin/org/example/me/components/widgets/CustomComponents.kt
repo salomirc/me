@@ -1,4 +1,4 @@
-package org.example.kobwebemptyproject.components.widgets
+package org.example.me.components.widgets
 
 import androidx.compose.runtime.Composable
 import com.varabyte.kobweb.compose.ui.Modifier
@@ -10,10 +10,7 @@ import org.example.me.toSitePalette
 import org.jetbrains.compose.web.attributes.ButtonType
 import org.jetbrains.compose.web.attributes.type
 import org.jetbrains.compose.web.css.*
-import org.jetbrains.compose.web.dom.Button
-import org.jetbrains.compose.web.dom.Div
-import org.jetbrains.compose.web.dom.Span
-import org.jetbrains.compose.web.dom.Text
+import org.jetbrains.compose.web.dom.*
 
 @Composable
 fun NumberBox(
@@ -30,28 +27,6 @@ fun NumberBox(
             lineHeight(75.px)
             fontSize(30.px)
             style()
-        }
-    }) {
-        Text(text)
-    }
-}
-
-@Composable
-fun RegularButton(
-    styles: List<String>? = null,
-    text: String,
-    isSelected: Boolean,
-    onClick: () -> Unit,
-) {
-    val styles: MutableList<String> = mutableListOf(AppStyles.siteStyleSheet.regularButtonClass).apply {
-        styles?.let { addAll(it) }
-        if (isSelected) add(AppStyles.siteStyleSheet.regularButtonClassSelected)
-    }
-    Button(attrs ={
-        type(ButtonType.Button)
-        classes(styles)
-        onClick {
-            onClick()
         }
     }) {
         Text(text)
@@ -87,6 +62,7 @@ fun IconButton(
         }
     }
 }
+
 @Composable
 fun TextIconButton(
     iconName: String,
@@ -99,7 +75,7 @@ fun TextIconButton(
 ) {
     val styles: MutableList<String> = mutableListOf(AppStyles.siteStyleSheet.iconButtonClass).apply {
         styles?.let { this.addAll(it) }
-        if (isSelected) add(AppStyles.siteStyleSheet.regularButtonClassSelected)
+        if (isSelected) add(AppStyles.siteStyleSheet.textIconButtonClassSelected)
     }
     Button(attrs ={
         type(ButtonType.Button)
@@ -127,5 +103,19 @@ fun TextIconButton(
                 }
             }) { Text(text) }
         }
+    }
+}
+
+@Composable
+fun PageTitle(
+    text: String
+) {
+    H1(attrs = {
+        style {
+            fontFamily("Verdana")
+            fontSize(24.px)
+        }
+    }) {
+        Text(text)
     }
 }
