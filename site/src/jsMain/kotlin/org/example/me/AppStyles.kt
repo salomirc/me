@@ -75,7 +75,6 @@ class SiteStyleSheet(val sitePalette: SitePalette) : StyleSheet() {
         ) {
             self style {
                 flexDirection(FlexDirection.Column)
-                height(Height.FitContent)
             }
         }
     }
@@ -87,7 +86,7 @@ class SiteStyleSheet(val sitePalette: SitePalette) : StyleSheet() {
         alignItems(AlignItems.FlexStart)
 
         width(Width.FitContent)
-        padding(10.vw)
+        padding(5.vw)
 
         fontFamily("Verdana")
         fontSize(3.vw)
@@ -105,7 +104,6 @@ class SiteStyleSheet(val sitePalette: SitePalette) : StyleSheet() {
 
     val nameDivClass by style {
         fontSize(5.vw)
-        width(100.px)
         fontWeight(FontWeight.Black)
         color(sitePalette.siteColor)
 
@@ -123,6 +121,7 @@ class SiteStyleSheet(val sitePalette: SitePalette) : StyleSheet() {
         margin(8.px)
         borderRadius(10.percent)
         maxHeight(70.percent)
+        maxWidth(50.percent)
 
         // media query
         media(
@@ -130,6 +129,7 @@ class SiteStyleSheet(val sitePalette: SitePalette) : StyleSheet() {
         ) {
             self style {
                 maxWidth(70.percent)
+                minHeight(0.px)
             }
         }
     }
