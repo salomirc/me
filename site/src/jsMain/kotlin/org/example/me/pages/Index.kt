@@ -1,16 +1,13 @@
 package org.example.me.pages
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import com.varabyte.kobweb.compose.css.FontWeight
 import com.varabyte.kobweb.compose.css.fontWeight
 import com.varabyte.kobweb.core.Page
 import com.varabyte.kobweb.core.PageContext
 import com.varabyte.kobweb.core.layout.Layout
 import com.varabyte.kobweb.navigation.BasePath
-import com.varabyte.kobweb.silk.theme.colors.ColorMode
-import org.example.me.AppStyles
+import org.example.me.AppStyles.siteStyleSheet
 import org.jetbrains.compose.web.css.marginTop
 import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.dom.Div
@@ -23,7 +20,7 @@ import org.jetbrains.compose.web.dom.Text
 fun HomePage(ctx: PageContext) {
     HomePageContainer {
         HelloComposable()
-        AndroidMeImage()
+        AndroidMeComposable()
     }
 }
 
@@ -32,7 +29,7 @@ fun HomePageContainer(
     content: @Composable () -> Unit
 ) {
     Div(attrs = {
-        classes(AppStyles.siteStyleSheet.homePageContainerClass)
+        classes(siteStyleSheet.homePageContainerClass)
     }) {
         content()
     }
@@ -41,7 +38,7 @@ fun HomePageContainer(
 @Composable
 fun HelloComposable() {
     Div(attrs = {
-        classes(AppStyles.siteStyleSheet.helloComposableClass)
+        classes(siteStyleSheet.helloBoxClass, siteStyleSheet.helloContainerClass)
     }) {
         Div(attrs = {
             style {
@@ -52,7 +49,7 @@ fun HelloComposable() {
             Text("Hello I'm")
         }
         Div(attrs = {
-            classes(AppStyles.siteStyleSheet.nameDivClass)
+            classes(siteStyleSheet.helloNameClass)
         }) {
             Text("Ciprian Salomir.")
         }
@@ -67,12 +64,17 @@ fun HelloComposable() {
 }
 
 @Composable
-fun AndroidMeImage() {
-    Img(
-        src = BasePath.prependTo("/images/androidify_me.png"),
-        attrs = {
-            classes(AppStyles.siteStyleSheet.aboutImageClass)
-        }
-    )
+fun AndroidMeComposable() {
+    Div(attrs = {
+        classes(siteStyleSheet.helloBoxClass, siteStyleSheet.helloBoxImageClass)
+    }) {
+        Img(
+            alt = "androidify_me",
+            src = BasePath.prependTo("/images/androidify_me.png"),
+            attrs = {
+                classes(siteStyleSheet.helloImageClass)
+            }
+        )
+    }
 }
 

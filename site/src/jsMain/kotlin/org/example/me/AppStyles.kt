@@ -1,14 +1,10 @@
 package org.example.me
 
 import com.varabyte.kobweb.compose.css.FontWeight
-import com.varabyte.kobweb.compose.css.Height
 import com.varabyte.kobweb.compose.css.ObjectFit
-import com.varabyte.kobweb.compose.css.Width
 import com.varabyte.kobweb.compose.css.borderBottom
 import com.varabyte.kobweb.compose.css.fontWeight
-import com.varabyte.kobweb.compose.css.height
 import com.varabyte.kobweb.compose.css.objectFit
-import com.varabyte.kobweb.compose.css.width
 import org.jetbrains.compose.web.css.*
 
 object AppStyles {
@@ -43,7 +39,7 @@ class SiteStyleSheet(val sitePalette: SitePalette) : StyleSheet() {
 
         // media query
         media(
-            query = screenMaxWidth640pxMediaQuery
+            query = screenBreakMinTo589px
         ) {
             self style {
                 justifyContent(JustifyContent.SpaceBetween)
@@ -55,7 +51,7 @@ class SiteStyleSheet(val sitePalette: SitePalette) : StyleSheet() {
         display(DisplayStyle.None)
         // media query
         media(
-            query = screenMaxWidth640pxMediaQuery
+            query = screenBreakMinTo589px
         ) {
             self style {
                 display(DisplayStyle.Block)
@@ -69,24 +65,68 @@ class SiteStyleSheet(val sitePalette: SitePalette) : StyleSheet() {
         justifyContent(JustifyContent.Center)
         alignItems(AlignItems.Center)
         height(80.vh)
+
         // media query
         media(
-            query = screenMaxWidth640pxMediaQuery
+            query = screenBreakMinTo589px
         ) {
             self style {
                 flexDirection(FlexDirection.Column)
+                gap(10.px)
             }
         }
     }
 
-    val helloComposableClass by style {
+    val helloBoxClass by style {
+        flexGrow(1)
+        maxHeight(100.percent)
+        maxWidth(40.percent)
+
+        // media query
+        media(
+            query = screenBreakMinTo589px
+        ) {
+            self style {
+                maxHeight(30.percent)
+                maxWidth(100.percent)
+            }
+        }
+    }
+
+    val helloBoxImageClass by style {
+        textAlign("center")
+
+        // media query
+        media(
+            query = screenBreakMinTo589px
+        ) {
+            self style {
+                maxHeight(70.percent)
+            }
+        }
+    }
+
+    val helloImageClass by style {
+        borderRadius(10.percent)
+        objectFit(ObjectFit.Contain)
+        maxWidth(80.percent)
+
+        // media query
+        media(
+            query = screenBreakMinTo589px
+        ) {
+            self style {
+                maxHeight(100.percent)
+                maxWidth(80.percent)
+            }
+        }
+    }
+
+    val helloContainerClass by style {
         display(DisplayStyle.Flex)
         flexDirection(FlexDirection.Column)
         justifyContent(JustifyContent.Center)
         alignItems(AlignItems.FlexStart)
-
-        width(Width.FitContent)
-        padding(5.vw)
 
         fontFamily("Verdana")
         fontSize(3.vw)
@@ -94,7 +134,16 @@ class SiteStyleSheet(val sitePalette: SitePalette) : StyleSheet() {
 
         // media query
         media(
-            query = screenMaxWidth640pxMediaQuery
+            query = screenBreakMinTo589px
+        ) {
+            self style {
+                fontSize(4.vw)
+            }
+        }
+
+        // media query
+        media(
+            query = screenBreakMinTo400px
         ) {
             self style {
                 fontSize(6.vw)
@@ -102,14 +151,23 @@ class SiteStyleSheet(val sitePalette: SitePalette) : StyleSheet() {
         }
     }
 
-    val nameDivClass by style {
+    val helloNameClass by style {
         fontSize(5.vw)
         fontWeight(FontWeight.Black)
         color(sitePalette.siteColor)
 
         // media query
         media(
-            query = screenMaxWidth640pxMediaQuery
+            query = screenBreakMinTo589px
+        ) {
+            self style {
+                fontSize(7.vw)
+            }
+        }
+
+        // media query
+        media(
+            query = screenBreakMinTo400px
         ) {
             self style {
                 fontSize(10.vw)
@@ -117,27 +175,10 @@ class SiteStyleSheet(val sitePalette: SitePalette) : StyleSheet() {
         }
     }
 
-    val aboutImageClass by style {
-        margin(8.px)
-        borderRadius(10.percent)
-        maxHeight(70.percent)
-        maxWidth(50.percent)
-
-        // media query
-        media(
-            query = screenMaxWidth640pxMediaQuery
-        ) {
-            self style {
-                maxWidth(70.percent)
-                minHeight(0.px)
-            }
-        }
-    }
-
     val mobileMenuClass by style {
         // media query
         media(
-            query = screenMinWidth640pxMediaQuery
+            query = screenBreak590pxToMax
         ) {
             self style {
                 display(DisplayStyle.None)
@@ -168,7 +209,7 @@ class SiteStyleSheet(val sitePalette: SitePalette) : StyleSheet() {
     val displayNoneMax640pxMediaQuery by style {
         // media query
         media(
-            query = screenMaxWidth640pxMediaQuery
+            query = screenBreakMinTo589px
         ) {
             self style {
                 display(DisplayStyle.None)
@@ -181,11 +222,15 @@ class SiteStyleSheet(val sitePalette: SitePalette) : StyleSheet() {
     }
 
     companion object {
-        val <TBuilder> GenericStyleSheetBuilder<TBuilder>.screenMaxWidth640pxMediaQuery: CSSMediaQuery
+        val <TBuilder> GenericStyleSheetBuilder<TBuilder>.screenBreakMinTo400px: CSSMediaQuery
+            get() = CSSMediaQuery.MediaType(CSSMediaQuery.MediaType.Enum.Screen)
+                .and(mediaMaxWidth(400.px))
+
+        val <TBuilder> GenericStyleSheetBuilder<TBuilder>.screenBreakMinTo589px: CSSMediaQuery
             get() = CSSMediaQuery.MediaType(CSSMediaQuery.MediaType.Enum.Screen)
                 .and(mediaMaxWidth(589.px))
 
-        val <TBuilder> GenericStyleSheetBuilder<TBuilder>.screenMinWidth640pxMediaQuery: CSSMediaQuery
+        val <TBuilder> GenericStyleSheetBuilder<TBuilder>.screenBreak590pxToMax: CSSMediaQuery
             get() = CSSMediaQuery.MediaType(CSSMediaQuery.MediaType.Enum.Screen)
                 .and(mediaMinWidth(590.px))
     }
