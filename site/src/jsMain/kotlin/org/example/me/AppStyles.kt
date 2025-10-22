@@ -66,7 +66,7 @@ class SiteStyleSheet(val sitePalette: SitePalette) : StyleSheet() {
     val homePageContainerClass by style {
         display(DisplayStyle.Flex)
         flexDirection(FlexDirection.Row)
-        justifyContent(JustifyContent.FlexStart)
+        justifyContent(JustifyContent.Center)
         alignItems(AlignItems.Center)
         height(80.vh)
         // media query
