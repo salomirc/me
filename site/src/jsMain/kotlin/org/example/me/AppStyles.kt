@@ -105,6 +105,7 @@ class SiteStyleSheet(val sitePalette: SitePalette) : StyleSheet() {
 
     val nameDivClass by style {
         fontSize(5.vw)
+        width(100.px)
         fontWeight(FontWeight.Black)
         color(sitePalette.siteColor)
 
@@ -119,17 +120,16 @@ class SiteStyleSheet(val sitePalette: SitePalette) : StyleSheet() {
     }
 
     val aboutImageClass by style {
-        width(30.vw)
         margin(8.px)
         borderRadius(10.percent)
-        objectFit(ObjectFit.Cover)
+        maxHeight(70.percent)
 
         // media query
         media(
             query = screenMaxWidth640pxMediaQuery
         ) {
             self style {
-                width(70.vw)
+                maxWidth(70.percent)
             }
         }
     }
