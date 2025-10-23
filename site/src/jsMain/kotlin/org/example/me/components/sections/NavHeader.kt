@@ -13,62 +13,25 @@ import com.varabyte.kobweb.silk.components.icons.fa.IconCategory
 import com.varabyte.kobweb.silk.theme.colors.ColorMode
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import org.example.me.components.widgets.IconButton
-import org.example.me.components.widgets.TextIconButton
 import org.example.kobwebemptyproject.models.ui.NavItem
 import org.example.me.AppStyles
-import org.example.me.SiteColors
-import org.example.me.SitePalette
+import org.example.me.components.widgets.IconButton
 import org.example.me.components.widgets.Spacer
 import org.example.me.components.widgets.TextButton
-import org.example.me.toSitePalette
-import org.jetbrains.compose.web.attributes.ButtonType
-import org.jetbrains.compose.web.attributes.type
-import org.jetbrains.compose.web.css.*
-import org.jetbrains.compose.web.dom.A
-import org.jetbrains.compose.web.dom.Button
+import org.example.me.components.widgets.TextIconButton
+import org.jetbrains.compose.web.css.Color
+import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.dom.Div
-import org.jetbrains.compose.web.dom.Span
-import org.jetbrains.compose.web.dom.Text
 
 @Composable
-fun NavHeader() {
-    val ctx: PageContext = rememberPageContext()
+fun NavHeader(
+    navItems: List<NavItem>,
+    selectedButton: NavItem,
+    isMobileMenuOpen: Boolean,
+    onNavItemButtonClick: (NavItem) -> Unit,
+    onMobileMenuOpen: (Boolean) -> Unit
+) {
     var colorMode: ColorMode by ColorMode.currentState
-    val currentPath = ctx.route.path
-    val coroutineScope = rememberCoroutineScope()
-
-    val navItems = remember {
-        listOf(
-            NavItem(title = "Home", iconName = "home", target = "/"),
-            NavItem(title = "About", iconName = "address-card", target = "/about"),
-            NavItem(title = "Experience", iconName = "scissors", target = "/experience"),
-            NavItem(title = "Projects", iconName = "plane-departure", target = "/projects"),
-            NavItem(title = "Contact", iconName = "square-envelope", target = "/contact"),
-        )
-    }
-
-    var selectedButton by remember { mutableStateOf(navItems[0]) }
-    var isMobileMenuOpen by remember { mutableStateOf(false) }
-
-    fun onNavItemButtonClick(navItem: NavItem, isMobileMenu: Boolean = false) {
-        fun navigate() = ctx.router.navigateTo(navItem.target)
-        selectedButton = navItem
-        if (isMobileMenu) {
-            coroutineScope.launch {
-                delay(300)
-                isMobileMenuOpen = false
-                navigate()
-            }
-        } else {
-            navigate()
-        }
-    }
-
-    LaunchedEffect(currentPath) {
-        console.log("ctx.route.path = $currentPath")
-        navItems.find { BasePath.prependTo(it.target) == currentPath }?.let { selectedButton = it }
-    }
 
     Div(attrs = {
         classes(AppStyles.siteStyleSheet.navBarContainer)
@@ -77,20 +40,12 @@ fun NavHeader() {
             navItems = navItems,
             selectedButton = selectedButton,
             colorMode = colorMode,
-            onNavItemButtonClick = ::onNavItemButtonClick,
+            onNavItemButtonClick = onNavItemButtonClick,
             onBarsMenuButtonClick = {
-                isMobileMenuOpen = !isMobileMenuOpen
+                onMobileMenuOpen(!isMobileMenuOpen)
             },
             onChangeThemeIconButtonClick = {
                 colorMode = colorMode.opposite
-            }
-        )
-        MobilePortraitMenu(
-            navItems = navItems,
-            selectedButton = selectedButton,
-            isMobileMenuOpen = isMobileMenuOpen,
-            onNavItemButtonClick = { navItem ->
-                onNavItemButtonClick(navItem = navItem, isMobileMenu = true)
             }
         )
     }
@@ -125,34 +80,6 @@ fun NavBarLandscapeMenu(
 }
 
 @Composable
-fun MobilePortraitMenu(
-    navItems: List<NavItem>,
-    selectedButton: NavItem,
-    isMobileMenuOpen: Boolean,
-    onNavItemButtonClick: (NavItem) -> Unit,
-) {
-    Div(attrs = {
-        classes(
-            if (isMobileMenuOpen) {
-                AppStyles.siteStyleSheet.mobileMenuClass
-            } else {
-                AppStyles.siteStyleSheet.displayNone
-            }
-        )
-    }) {
-        navItems.forEach { navItem ->
-            TextButton(
-                text = navItem.title,
-                isSelected = selectedButton == navItem,
-                onClick = {
-                    onNavItemButtonClick(navItem)
-                }
-            )
-        }
-    }
-}
-
-@Composable
 fun NavButtonsLandscape(
     navItems: List<NavItem>,
     selectedButton: NavItem,
@@ -180,7 +107,7 @@ fun MobileBarsMenuButton(
         content = {
             FaIcon(
                 name = "bars",
-                modifier = Modifier.padding(top = 8.px),
+                modifier = Modifier.padding(top = 4.px),
                 style = IconCategory.SOLID
             )
         }

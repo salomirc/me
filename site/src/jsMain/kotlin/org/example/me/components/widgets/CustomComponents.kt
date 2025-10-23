@@ -93,7 +93,7 @@ fun TextIconButton(
     textFontSize: CSSNumeric = 12.px,
     styles: List<String>? = null
 ) {
-    val styles: MutableList<String> = mutableListOf(AppStyles.siteStyleSheet.iconButtonClass).apply {
+    val styles: MutableList<String> = mutableListOf(AppStyles.siteStyleSheet.textIconButtonClass).apply {
         styles?.let { this.addAll(it) }
         if (isSelected) add(AppStyles.siteStyleSheet.textIconButtonClassSelected)
     }

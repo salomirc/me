@@ -3,10 +3,8 @@ package org.example.me
 import com.varabyte.kobweb.compose.css.FontWeight
 import com.varabyte.kobweb.compose.css.ObjectFit
 import com.varabyte.kobweb.compose.css.borderBottom
-import com.varabyte.kobweb.compose.css.color
 import com.varabyte.kobweb.compose.css.fontWeight
 import com.varabyte.kobweb.compose.css.objectFit
-import com.varabyte.kobweb.compose.css.transitionDuration
 import com.varabyte.kobweb.compose.css.zIndex
 import org.jetbrains.compose.web.css.*
 import org.jetbrains.compose.web.css.keywords.auto
@@ -45,7 +43,7 @@ class SiteStyleSheet(val sitePalette: SitePalette) : StyleSheet() {
             style = LineStyle.Solid
             color = sitePalette.brand.accent
         }
-        zIndex(999)
+        zIndex(1)
     }
 
     val navBarHorizontalContainer by style {
@@ -60,6 +58,7 @@ class SiteStyleSheet(val sitePalette: SitePalette) : StyleSheet() {
         ) {
             self style {
                 justifyContent(JustifyContent.SpaceBetween)
+                alignItems(AlignItems.Center)
             }
         }
     }
@@ -197,7 +196,17 @@ class SiteStyleSheet(val sitePalette: SitePalette) : StyleSheet() {
         }
     }
 
-    val mobileMenuClass by style {
+    val mobileMenuOverlayClass by style {
+        position(Position.Fixed)
+        left(0.px)
+        right(0.px)
+        top(0.px)
+        bottom(0.px)
+        width(auto)
+        height(auto)
+        backgroundColor(sitePalette.overlayTransparent)
+        zIndex(2)
+
         // media query
         media(
             query = screenBreak590pxToMax
@@ -208,6 +217,13 @@ class SiteStyleSheet(val sitePalette: SitePalette) : StyleSheet() {
         }
     }
 
+    val mobileMenuClass by style {
+        padding(16.px)
+        backgroundColor(sitePalette.brand.primary)
+        width(90.percent)
+        height(100.percent)
+    }
+
     val textButtonClass by style {
         display(DisplayStyle.Block)
         width(100.percent)
@@ -215,7 +231,7 @@ class SiteStyleSheet(val sitePalette: SitePalette) : StyleSheet() {
         backgroundColor(sitePalette.brand.primary)
         borderWidth(0.px)
         padding(10.px)
-        margin(10.px, 0.px)
+        marginBottom(10.px)
         cursor("pointer")
     }
 
@@ -224,7 +240,7 @@ class SiteStyleSheet(val sitePalette: SitePalette) : StyleSheet() {
         color(SiteColors.yellow)
     }
 
-    val iconButtonClass by style {
+    val textIconButtonClass by style {
         borderRadius(4.px, 4.px, 0.px, 0.px)
         color(SiteColors.lightGray)
         backgroundColor(Color.transparent)
@@ -232,6 +248,20 @@ class SiteStyleSheet(val sitePalette: SitePalette) : StyleSheet() {
         padding(8.px, 16.px)
         margin(1.px, 4.px, 0.px, 4.px)
         cursor("pointer")
+    }
+
+    val iconButtonClass by style {
+        color(SiteColors.lightGray)
+        backgroundColor(Color.transparent)
+        borderWidth(0.px)
+        padding(8.px, 16.px)
+        cursor("pointer")
+    }
+
+    val simpleIconButtonClass by style {
+        padding(4.px, 10.px)
+        margin(0.px)
+//        borderRadius(100.percent)
     }
 
     val textIconButtonClassSelected by style {

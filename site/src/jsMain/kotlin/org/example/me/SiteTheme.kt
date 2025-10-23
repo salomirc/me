@@ -39,7 +39,7 @@ object SitePalettes {
             accent = SiteColors.blueMarin,
         ),
         surfaceVariant = Colors.LightBlue,
-        overlayTransparent = Color.rgba(0, 0, 0, 0.1f)
+        overlayTransparent = Color.rgba(0, 0, 0, 0.5f)
     )
     val dark = SitePalette(
         siteColor = SiteColors.lightGray,
