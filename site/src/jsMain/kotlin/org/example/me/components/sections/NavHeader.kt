@@ -69,6 +69,7 @@ fun NavHeader() {
         console.log("ctx.route.path = $currentPath")
         navItems.find { BasePath.prependTo(it.target) == currentPath }?.let { selectedButton = it }
     }
+
     Div(attrs = {
         classes(AppStyles.siteStyleSheet.navBarContainer)
     }) {
@@ -148,7 +149,6 @@ fun MobilePortraitMenu(
                 }
             )
         }
-        Spacer(height = 1.px)
     }
 }
 

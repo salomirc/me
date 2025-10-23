@@ -3,6 +3,7 @@ package org.example.me
 import com.varabyte.kobweb.compose.css.FontWeight
 import com.varabyte.kobweb.compose.css.ObjectFit
 import com.varabyte.kobweb.compose.css.borderBottom
+import com.varabyte.kobweb.compose.css.color
 import com.varabyte.kobweb.compose.css.fontWeight
 import com.varabyte.kobweb.compose.css.objectFit
 import com.varabyte.kobweb.compose.css.transitionDuration
@@ -213,13 +214,14 @@ class SiteStyleSheet(val sitePalette: SitePalette) : StyleSheet() {
         color(SiteColors.lightGray)
         backgroundColor(sitePalette.brand.primary)
         borderWidth(0.px)
-        padding(8.px)
-        marginBottom(4.px)
+        padding(10.px)
+        margin(10.px, 0.px)
         cursor("pointer")
     }
 
     val textButtonClassSelected by style {
         backgroundColor(sitePalette.brand.accent)
+        color(SiteColors.yellow)
     }
 
     val iconButtonClass by style {
