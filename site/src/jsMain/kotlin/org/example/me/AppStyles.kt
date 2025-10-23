@@ -5,7 +5,10 @@ import com.varabyte.kobweb.compose.css.ObjectFit
 import com.varabyte.kobweb.compose.css.borderBottom
 import com.varabyte.kobweb.compose.css.fontWeight
 import com.varabyte.kobweb.compose.css.objectFit
+import com.varabyte.kobweb.compose.css.transitionDuration
+import com.varabyte.kobweb.compose.css.zIndex
 import org.jetbrains.compose.web.css.*
+import org.jetbrains.compose.web.css.keywords.auto
 
 object AppStyles {
     lateinit var siteStyleSheet: SiteStyleSheet
@@ -13,6 +16,10 @@ object AppStyles {
 
 class SiteStyleSheet(val sitePalette: SitePalette) : StyleSheet() {
     init {
+        "*" style {
+            fontFamily("Verdana", "sans-serif")
+        }
+
         "html" style {
             // 62.5% of 16px = 10px
             fontSize(62.5.percent)
@@ -25,10 +32,11 @@ class SiteStyleSheet(val sitePalette: SitePalette) : StyleSheet() {
     }
 
     val navBarContainer by style {
-        display(DisplayStyle.Flex)
-        flexDirection(FlexDirection.Row)
-        justifyContent(JustifyContent.End)
-        alignItems(AlignItems.FlexEnd)
+        position(Position.Fixed)
+        left(0.px)
+        right(0.px)
+        top(0.px)
+        width(auto)
         padding(16.px, 4.px, 0.px, 4.px)
         backgroundColor(sitePalette.brand.primary)
         borderBottom {
@@ -36,6 +44,14 @@ class SiteStyleSheet(val sitePalette: SitePalette) : StyleSheet() {
             style = LineStyle.Solid
             color = sitePalette.brand.accent
         }
+        zIndex(999)
+    }
+
+    val navBarHorizontalContainer by style {
+        display(DisplayStyle.Flex)
+        flexDirection(FlexDirection.Row)
+        justifyContent(JustifyContent.End)
+        alignItems(AlignItems.FlexEnd)
 
         // media query
         media(
@@ -59,12 +75,16 @@ class SiteStyleSheet(val sitePalette: SitePalette) : StyleSheet() {
         }
     }
 
+    val pageContainerClass by style {
+        paddingTop(100.px)
+    }
+
     val homePageContainerClass by style {
         display(DisplayStyle.Flex)
         flexDirection(FlexDirection.Row)
         justifyContent(JustifyContent.Center)
         alignItems(AlignItems.Center)
-        height(80.vh)
+        height(100.vh)
 
         // media query
         media(
@@ -87,7 +107,7 @@ class SiteStyleSheet(val sitePalette: SitePalette) : StyleSheet() {
             query = screenBreakMinTo589px
         ) {
             self style {
-                maxHeight(30.percent)
+                maxHeight(100.percent)
                 maxWidth(100.percent)
             }
         }
@@ -153,6 +173,7 @@ class SiteStyleSheet(val sitePalette: SitePalette) : StyleSheet() {
 
     val helloNameClass by style {
         fontSize(5.vw)
+        fontFamily("Sofia")
         fontWeight(FontWeight.Black)
         color(sitePalette.siteColor)
 
@@ -186,9 +207,19 @@ class SiteStyleSheet(val sitePalette: SitePalette) : StyleSheet() {
         }
     }
 
-    val mobileMenuLink by style {
-        textDecoration("none")
-        fontFamily("Arial")
+    val textButtonClass by style {
+        display(DisplayStyle.Block)
+        width(100.percent)
+        color(SiteColors.lightGray)
+        backgroundColor(sitePalette.brand.primary)
+        borderWidth(0.px)
+        padding(8.px)
+        marginBottom(4.px)
+        cursor("pointer")
+    }
+
+    val textButtonClassSelected by style {
+        backgroundColor(sitePalette.brand.accent)
     }
 
     val iconButtonClass by style {

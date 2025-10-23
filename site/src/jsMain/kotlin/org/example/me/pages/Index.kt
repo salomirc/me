@@ -7,11 +7,16 @@ import com.varabyte.kobweb.core.Page
 import com.varabyte.kobweb.core.PageContext
 import com.varabyte.kobweb.core.layout.Layout
 import com.varabyte.kobweb.navigation.BasePath
+import com.varabyte.kobweb.silk.theme.colors.ColorMode
 import org.example.me.AppStyles.siteStyleSheet
+import org.example.me.toSitePalette
+import org.jetbrains.compose.web.css.color
+import org.jetbrains.compose.web.css.fontFamily
 import org.jetbrains.compose.web.css.marginTop
 import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.Img
+import org.jetbrains.compose.web.dom.Span
 import org.jetbrains.compose.web.dom.Text
 
 @Page
@@ -29,7 +34,7 @@ fun HomePageContainer(
     content: @Composable () -> Unit
 ) {
     Div(attrs = {
-        classes(siteStyleSheet.homePageContainerClass)
+        classes(siteStyleSheet.pageContainerClass, siteStyleSheet.homePageContainerClass)
     }) {
         content()
     }
@@ -37,6 +42,7 @@ fun HomePageContainer(
 
 @Composable
 fun HelloComposable() {
+    val sitePalette = ColorMode.current.toSitePalette()
     Div(attrs = {
         classes(siteStyleSheet.helloBoxClass, siteStyleSheet.helloContainerClass)
     }) {
@@ -58,7 +64,15 @@ fun HelloComposable() {
                 marginTop(24.px)
             }
         }) {
-            Text("and Nice to meet you!")
+            Text("and ")
+            Span(attrs = {
+                style {
+                    fontFamily("Bitcount Grid Single")
+                    color(sitePalette.brand.accent)
+                }
+            }) {
+                Text("Nice to meet you!")
+            }
         }
     }
 }

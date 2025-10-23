@@ -11,22 +11,32 @@ import com.varabyte.kobweb.silk.components.icons.SunIcon
 import com.varabyte.kobweb.silk.components.icons.fa.FaIcon
 import com.varabyte.kobweb.silk.components.icons.fa.IconCategory
 import com.varabyte.kobweb.silk.theme.colors.ColorMode
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.example.me.components.widgets.IconButton
 import org.example.me.components.widgets.TextIconButton
 import org.example.kobwebemptyproject.models.ui.NavItem
 import org.example.me.AppStyles
 import org.example.me.SiteColors
+import org.example.me.SitePalette
+import org.example.me.components.widgets.Spacer
+import org.example.me.components.widgets.TextButton
 import org.example.me.toSitePalette
+import org.jetbrains.compose.web.attributes.ButtonType
+import org.jetbrains.compose.web.attributes.type
 import org.jetbrains.compose.web.css.*
 import org.jetbrains.compose.web.dom.A
+import org.jetbrains.compose.web.dom.Button
 import org.jetbrains.compose.web.dom.Div
+import org.jetbrains.compose.web.dom.Span
 import org.jetbrains.compose.web.dom.Text
 
 @Composable
 fun NavHeader() {
     val ctx: PageContext = rememberPageContext()
-    var colorMode by ColorMode.currentState
+    var colorMode: ColorMode by ColorMode.currentState
     val currentPath = ctx.route.path
+    val coroutineScope = rememberCoroutineScope()
 
     val navItems = remember {
         listOf(
@@ -41,68 +51,85 @@ fun NavHeader() {
     var selectedButton by remember { mutableStateOf(navItems[0]) }
     var isMobileMenuOpen by remember { mutableStateOf(false) }
 
+    fun onNavItemButtonClick(navItem: NavItem, isMobileMenu: Boolean = false) {
+        fun navigate() = ctx.router.navigateTo(navItem.target)
+        selectedButton = navItem
+        if (isMobileMenu) {
+            coroutineScope.launch {
+                delay(300)
+                isMobileMenuOpen = false
+                navigate()
+            }
+        } else {
+            navigate()
+        }
+    }
+
     LaunchedEffect(currentPath) {
         console.log("ctx.route.path = $currentPath")
         navItems.find { BasePath.prependTo(it.target) == currentPath }?.let { selectedButton = it }
     }
-
     Div(attrs = {
         classes(AppStyles.siteStyleSheet.navBarContainer)
     }) {
-        navItems.forEach { navItem ->
-            TextIconButton(
-                iconName = navItem.iconName,
-                text = navItem.title,
-                onClick = {
-                    selectedButton = navItem
-                    ctx.router.navigateTo(navItem.target)
-                },
-                isSelected = selectedButton == navItem,
-                styles = listOf(AppStyles.siteStyleSheet.displayNoneMax640pxMediaQuery),
-            )
-        }
-        IconButton(
-            styles = listOf(AppStyles.siteStyleSheet.barsMenuClass),
-            onClick = {
+        NavBarLandscapeMenu(
+            navItems = navItems,
+            selectedButton = selectedButton,
+            colorMode = colorMode,
+            onNavItemButtonClick = ::onNavItemButtonClick,
+            onBarsMenuButtonClick = {
                 isMobileMenuOpen = !isMobileMenuOpen
             },
-            backgroundColor = Color.transparent,
-            content = {
-                FaIcon(
-                    name = "bars",
-                    modifier = Modifier.padding(top = 8.px),
-                    style = IconCategory.SOLID
-                )
+            onChangeThemeIconButtonClick = {
+                colorMode = colorMode.opposite
             }
         )
-        Div(attrs = {
-            style {
-                width(20.px)
-            }
-        })
-        IconButton(
-            onClick = {
-                colorMode = colorMode.opposite
-            },
-            backgroundColor = Color.transparent,
-            content = {
-                val color = colorMode.toSitePalette().brand.accent
-                if (colorMode.isLight) {
-                    MoonIcon(
-                        modifier = Modifier
-//                            .color(color)
-                            .padding(top = 8.px)
-                    )
-                } else {
-                    SunIcon(
-                        modifier = Modifier
-//                            .color(color)
-                            .padding(top = 8.px)
-                    )
-                }
+        MobilePortraitMenu(
+            navItems = navItems,
+            selectedButton = selectedButton,
+            isMobileMenuOpen = isMobileMenuOpen,
+            onNavItemButtonClick = { navItem ->
+                onNavItemButtonClick(navItem = navItem, isMobileMenu = true)
             }
         )
     }
+}
+
+@Composable
+fun NavBarLandscapeMenu(
+    navItems: List<NavItem>,
+    selectedButton: NavItem,
+    colorMode: ColorMode,
+    onNavItemButtonClick: (NavItem) -> Unit,
+    onBarsMenuButtonClick: () -> Unit,
+    onChangeThemeIconButtonClick: () -> Unit
+) {
+    Div(attrs = {
+        classes(AppStyles.siteStyleSheet.navBarHorizontalContainer)
+    }) {
+        NavButtonsLandscape(
+            navItems = navItems,
+            selectedButton = selectedButton,
+            onClick = onNavItemButtonClick
+        )
+        MobileBarsMenuButton(
+            onClick = onBarsMenuButtonClick
+        )
+        Spacer(width = 20.px)
+        ChangeThemeIconButton(
+            colorMode = colorMode,
+            onClick = onChangeThemeIconButtonClick
+        )
+    }
+}
+
+@Composable
+fun MobilePortraitMenu(
+    navItems: List<NavItem>,
+    selectedButton: NavItem,
+    isMobileMenuOpen: Boolean,
+    onNavItemButtonClick: (NavItem) -> Unit,
+) {
     Div(attrs = {
         classes(
             if (isMobileMenuOpen) {
@@ -113,22 +140,73 @@ fun NavHeader() {
         )
     }) {
         navItems.forEach { navItem ->
-            A(
-                href = BasePath.prependTo(navItem.target),
-                attrs = {
-                    classes(AppStyles.siteStyleSheet.mobileMenuLink)
-                    style {
-                        display(DisplayStyle.Block)
-                        padding(10.px)
-                        margin(10.px, 0.px)
-                        color(SiteColors.lightGray)
-                        backgroundColor(colorMode.toSitePalette().brand.primary)
-                        textAlign("center")
-                    }
+            TextButton(
+                text = navItem.title,
+                isSelected = selectedButton == navItem,
+                onClick = {
+                    onNavItemButtonClick(navItem)
                 }
-            ) {
-                Text(navItem.title)
+            )
+        }
+        Spacer(height = 1.px)
+    }
+}
+
+@Composable
+fun NavButtonsLandscape(
+    navItems: List<NavItem>,
+    selectedButton: NavItem,
+    onClick: (NavItem) -> Unit,
+) {
+    navItems.forEach { navItem ->
+        TextIconButton(
+            iconName = navItem.iconName,
+            text = navItem.title,
+            onClick = { onClick(navItem) },
+            isSelected = selectedButton == navItem,
+            styles = listOf(AppStyles.siteStyleSheet.displayNoneMax640pxMediaQuery),
+        )
+    }
+}
+
+@Composable
+fun MobileBarsMenuButton(
+    onClick: () -> Unit
+) {
+    IconButton(
+        styles = listOf(AppStyles.siteStyleSheet.barsMenuClass),
+        onClick = onClick,
+        backgroundColor = Color.transparent,
+        content = {
+            FaIcon(
+                name = "bars",
+                modifier = Modifier.padding(top = 8.px),
+                style = IconCategory.SOLID
+            )
+        }
+    )
+}
+
+@Composable
+fun ChangeThemeIconButton(
+    colorMode: ColorMode,
+    onClick: () -> Unit
+) {
+    IconButton(
+        onClick = onClick,
+        backgroundColor = Color.transparent,
+        content = {
+            if (colorMode.isLight) {
+                MoonIcon(
+                    modifier = Modifier
+                        .padding(top = 8.px)
+                )
+            } else {
+                SunIcon(
+                    modifier = Modifier
+                        .padding(top = 8.px)
+                )
             }
         }
-    }
+    )
 }

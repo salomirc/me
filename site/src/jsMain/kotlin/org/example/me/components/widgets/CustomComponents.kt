@@ -34,6 +34,26 @@ fun NumberBox(
 }
 
 @Composable
+fun TextButton(
+    text: String,
+    isSelected: Boolean,
+    onClick: () -> Unit
+) {
+    val styles: MutableList<String> = mutableListOf(AppStyles.siteStyleSheet.textButtonClass).apply {
+        if (isSelected) add(AppStyles.siteStyleSheet.textButtonClassSelected)
+    }
+    Button(attrs ={
+        type(ButtonType.Button)
+        classes(styles)
+        onClick {
+            onClick()
+        }
+    }) {
+        Text(text)
+    }
+}
+
+@Composable
 fun IconButton(
     styles: List<String>? = null,
     fontSize: CSSNumeric = 30.px,
@@ -104,6 +124,23 @@ fun TextIconButton(
             }) { Text(text) }
         }
     }
+}
+
+@Composable
+fun Spacer(
+    width: CSSNumeric = 0.px,
+    height: CSSNumeric = 0.px,
+    styles: List<String>? = null
+) {
+    Div(attrs = {
+        styles?.let { stylesList ->
+            classes(stylesList)
+        }
+        style {
+            width(width)
+            height(height)
+        }
+    })
 }
 
 @Composable

@@ -1,4 +1,7 @@
+import com.varabyte.kobweb.common.navigation.BasePath
 import com.varabyte.kobweb.gradle.application.util.configAsKobwebApplication
+import kotlinx.html.LinkAs
+import kotlinx.html.link
 
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
@@ -14,6 +17,13 @@ kobweb {
     app {
         index {
             description.set("Powered by Kobweb")
+            head.add {
+                link(rel = "preconnect", href = "https://fonts.googleapis.com")
+                link(rel = "preconnect", href = "https://fonts.gstatic.com")
+                link(rel = "stylesheet", href = basePath.prependTo("/css/normalize.css"))
+                link(rel = "stylesheet", href = "https://fonts.googleapis.com/css?family=Sofia")
+                link(rel = "stylesheet", href = "https://fonts.googleapis.com/css?family=Bitcount+Grid+Single")
+            }
         }
     }
 }
