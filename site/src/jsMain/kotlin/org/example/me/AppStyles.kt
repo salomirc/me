@@ -150,7 +150,7 @@ class SiteStyleSheet(val sitePalette: SitePalette) : StyleSheet() {
 
         fontFamily("Verdana")
         fontSize(3.vw)
-        color(SiteColors.binayShawGray)
+        color(SiteColors.gray)
 
         // media query
         media(
@@ -217,21 +217,26 @@ class SiteStyleSheet(val sitePalette: SitePalette) : StyleSheet() {
         }
     }
 
-    val mobileMenuClass by style {
+    val flexColumnDefaultClass by style {
+        display(DisplayStyle.Flex)
+        flexDirection(FlexDirection.Column)
+    }
+
+    val mobileMenuContainerClass by style {
         padding(16.px)
-        backgroundColor(sitePalette.brand.primary)
+        backgroundColor(SiteColors.heavyDarkGray)
         width(90.percent)
         height(100.percent)
+        rowGap(4.px)
     }
 
     val textButtonClass by style {
         display(DisplayStyle.Block)
         width(100.percent)
         color(SiteColors.lightGray)
-        backgroundColor(sitePalette.brand.primary)
+        backgroundColor(SiteColors.overlayTransparent)
         borderWidth(0.px)
         padding(10.px)
-        marginBottom(10.px)
         cursor("pointer")
     }
 

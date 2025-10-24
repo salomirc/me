@@ -55,6 +55,7 @@ fun TextButton(
 
 @Composable
 fun IconButton(
+    id: String? = null,
     styles: List<String>? = null,
     fontSize: CSSNumeric = 30.px,
     backgroundColor: CSSColorValue,
@@ -65,6 +66,9 @@ fun IconButton(
         styles?.let { this.addAll(it) }
     }
     Button(attrs ={
+        id?.let { s ->
+            id(s)
+        }
         onClick {
             onClick()
         }
@@ -130,15 +134,19 @@ fun TextIconButton(
 fun Spacer(
     width: CSSNumeric = 0.px,
     height: CSSNumeric = 0.px,
-    styles: List<String>? = null
+    classes: List<String>? = null,
+    style: (StyleScope.() -> Unit)? = null
 ) {
     Div(attrs = {
-        styles?.let { stylesList ->
-            classes(stylesList)
+        classes?.let { list ->
+            classes(list)
         }
         style {
             width(width)
             height(height)
+            style?.let { lambda ->
+                this.lambda()
+            }
         }
     })
 }

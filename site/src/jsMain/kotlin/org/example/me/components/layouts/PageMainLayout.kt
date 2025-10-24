@@ -5,30 +5,31 @@ import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.modifiers.padding
 import com.varabyte.kobweb.core.PageContext
 import com.varabyte.kobweb.core.layout.Layout
-import com.varabyte.kobweb.core.rememberPageContext
 import com.varabyte.kobweb.navigation.BasePath
 import com.varabyte.kobweb.silk.components.icons.fa.FaIcon
 import com.varabyte.kobweb.silk.components.icons.fa.IconCategory
-import com.varabyte.kobweb.silk.theme.colors.ColorMode
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.example.kobwebemptyproject.models.ui.NavItem
-import org.example.me.AppStyles
-import org.example.me.components.sections.NavHeader
+import org.example.me.AppStyles.siteStyleSheet
+import org.example.me.SiteColors
+import org.example.me.components.sections.NavBarContainer
 import org.example.me.components.widgets.IconButton
+import org.example.me.components.widgets.Spacer
 import org.example.me.components.widgets.TextButton
-import org.example.me.toSitePalette
-import org.jetbrains.compose.web.css.*
+import org.jetbrains.compose.web.css.flexGrow
+import org.jetbrains.compose.web.css.paddingBottom
+import org.jetbrains.compose.web.css.px
+import org.jetbrains.compose.web.css.textAlign
 import org.jetbrains.compose.web.dom.Div
 
 @Layout(".components.layouts.AppContainerLayout")
 @Composable
 fun AppContainerLayoutScope.PageMainLayout(
+    ctx: PageContext,
     content: @Composable AppContainerLayoutScope.() -> Unit
 ) {
-    val ctx: PageContext = rememberPageContext()
     val currentPath = ctx.route.path
-
     val navItems = remember {
         listOf(
             NavItem(title = "Home", iconName = "home", target = "/"),
@@ -63,7 +64,7 @@ fun AppContainerLayoutScope.PageMainLayout(
         navItems.find { BasePath.prependTo(it.target) == currentPath }?.let { selectedButton = it }
     }
 
-    NavHeader(
+    NavBarContainer(
         navItems = navItems,
         selectedButton = selectedButton,
         isMobileMenuOpen = isMobileMenuOpen,
@@ -72,7 +73,7 @@ fun AppContainerLayoutScope.PageMainLayout(
             isMobileMenuOpen = boolean
         }
     )
-    MobilePortraitMenu(
+    MobileMenuOverlayContainer(
         navItems = navItems,
         selectedButton = selectedButton,
         isMobileMenuOpen = isMobileMenuOpen,
@@ -87,57 +88,100 @@ fun AppContainerLayoutScope.PageMainLayout(
 }
 
 @Composable
-fun MobilePortraitMenu(
+fun MobileMenuOverlayContainer(
     navItems: List<NavItem>,
     selectedButton: NavItem,
     isMobileMenuOpen: Boolean,
     onNavItemButtonClick: (NavItem) -> Unit,
     onCloseButtonClick: () -> Unit
 ) {
-    var colorMode: ColorMode by ColorMode.currentState
     Div(attrs = {
+        id("mobileMenuOverlayClass")
         classes(
             if (isMobileMenuOpen) {
                 listOf(
-                    AppStyles.siteStyleSheet.mobileMenuOverlayClass
+                    siteStyleSheet.mobileMenuOverlayClass
                 )
             } else {
-                listOf(AppStyles.siteStyleSheet.displayNone)
+                listOf(siteStyleSheet.displayNone)
             }
         )
     }) {
-        Div(attrs = {
-            classes(AppStyles.siteStyleSheet.mobileMenuClass)
-        }) {
-            Div(attrs = {
-                style {
-                    paddingBottom(32.px)
-                    textAlign("right")
-                }
-            }) {
-                IconButton(
-                    styles = listOf(AppStyles.siteStyleSheet.simpleIconButtonClass),
-                    fontSize = 16.px,
-                    onClick = onCloseButtonClick,
-                    backgroundColor = colorMode.toSitePalette().overlayTransparent,
-                    content = {
-                        FaIcon(
-                            name = "xmark",
-                            modifier = Modifier.padding(top = 4.px),
-                            style = IconCategory.SOLID
-                        )
-                    }
-                )
-            }
-            navItems.forEach { navItem ->
-                TextButton(
-                    text = navItem.title,
-                    isSelected = selectedButton == navItem,
-                    onClick = {
-                        onNavItemButtonClick(navItem)
-                    }
-                )
-            }
+        MobileMenuContainer(
+            onCloseButtonClick = onCloseButtonClick,
+            navItems = navItems,
+            selectedButton = selectedButton,
+            onNavItemButtonClick = onNavItemButtonClick
+        )
+    }
+}
+
+@Composable
+private fun MobileMenuContainer(
+    onCloseButtonClick: () -> Unit,
+    navItems: List<NavItem>,
+    selectedButton: NavItem,
+    onNavItemButtonClick: (NavItem) -> Unit
+) {
+    Div(attrs = {
+        id("mobileMenuContainer")
+        classes(siteStyleSheet.flexColumnDefaultClass, siteStyleSheet.mobileMenuContainerClass)
+    }) {
+        CloseButtonContainer(
+            onCloseButtonClick = onCloseButtonClick
+        )
+        Spacer(style = { flexGrow(1) })
+        PortraitMenuButtons(
+            navItems = navItems,
+            selectedButton = selectedButton,
+            onNavItemButtonClick = onNavItemButtonClick
+        )
+        Spacer(style = { flexGrow(4) })
+    }
+}
+
+
+@Composable
+private fun CloseButtonContainer(
+    onCloseButtonClick: () -> Unit,
+) {
+    Div(attrs = {
+        id("xMarkIconButtonContainer")
+        style {
+            paddingBottom(32.px)
+            textAlign("right")
         }
+    }) {
+        IconButton(
+            id = "xMarkIconButton",
+            styles = listOf(siteStyleSheet.simpleIconButtonClass),
+            fontSize = 16.px,
+            onClick = onCloseButtonClick,
+            backgroundColor = SiteColors.overlayTransparent,
+            content = {
+                FaIcon(
+                    name = "xmark",
+                    modifier = Modifier.padding(top = 4.px),
+                    style = IconCategory.SOLID
+                )
+            }
+        )
+    }
+}
+
+@Composable
+private fun PortraitMenuButtons(
+    navItems: List<NavItem>,
+    selectedButton: NavItem,
+    onNavItemButtonClick: (NavItem) -> Unit
+) {
+    navItems.forEach { navItem ->
+        TextButton(
+            text = navItem.title,
+            isSelected = selectedButton == navItem,
+            onClick = {
+                onNavItemButtonClick(navItem)
+            }
+        )
     }
 }
