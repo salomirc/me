@@ -2,15 +2,27 @@ package org.example.me
 
 import com.varabyte.kobweb.compose.css.FontWeight
 import com.varabyte.kobweb.compose.css.ObjectFit
+import com.varabyte.kobweb.compose.css.Visibility
 import com.varabyte.kobweb.compose.css.borderBottom
 import com.varabyte.kobweb.compose.css.fontWeight
 import com.varabyte.kobweb.compose.css.objectFit
+import com.varabyte.kobweb.compose.css.visibility
 import com.varabyte.kobweb.compose.css.zIndex
+import org.example.me.AnimationTiming.TIME_LARGE
+import org.jetbrains.compose.web.ExperimentalComposeWebApi
 import org.jetbrains.compose.web.css.*
 import org.jetbrains.compose.web.css.keywords.auto
 
 object AppStyles {
     lateinit var siteStyleSheet: SiteStyleSheet
+}
+
+object AnimationTiming {
+    const val TIME_VERY_FAST = 100
+    const val TIME_FAST = 150
+    const val TIME_REGULAR = 300
+    const val TIME_LARGE = 500
+    const val TIME_EXTRA_LARGE = 1000
 }
 
 class SiteStyleSheet(val sitePalette: SitePalette) : StyleSheet() {
@@ -196,7 +208,7 @@ class SiteStyleSheet(val sitePalette: SitePalette) : StyleSheet() {
         }
     }
 
-    val mobileMenuOverlayClass by style {
+    val mobileMenuRootContainerHiddenClass by style {
         position(Position.Fixed)
         left(0.px)
         right(0.px)
@@ -204,7 +216,7 @@ class SiteStyleSheet(val sitePalette: SitePalette) : StyleSheet() {
         bottom(0.px)
         width(auto)
         height(auto)
-        backgroundColor(sitePalette.overlayTransparent)
+        visibility(Visibility.Hidden)
         zIndex(2)
 
         // media query
@@ -217,17 +229,52 @@ class SiteStyleSheet(val sitePalette: SitePalette) : StyleSheet() {
         }
     }
 
-    val flexColumnDefaultClass by style {
-        display(DisplayStyle.Flex)
-        flexDirection(FlexDirection.Column)
+    val mobileMenuRootContainerVisibleClass by style {
+        visibility(Visibility.Visible)
     }
 
+    @OptIn(ExperimentalComposeWebApi::class)
+    val mobileMenuOverlayContainerClass by style {
+        width(100.percent)
+        height(100.percent)
+        backgroundColor(Color.transparent)
+
+        transitions {
+            "background-color" { duration(TIME_LARGE.ms) }
+        }
+    }
+
+    val mobileMenuOverlayTransitionedContainerClass by style {
+        backgroundColor(sitePalette.overlayTransparent)
+    }
+
+    @OptIn(ExperimentalComposeWebApi::class)
     val mobileMenuContainerClass by style {
         padding(16.px)
         backgroundColor(SiteColors.heavyDarkGray)
         width(90.percent)
         height(100.percent)
         rowGap(4.px)
+
+        position(Position.Absolute)
+        top(0.px)
+        left((-100).percent)
+        transitions {
+            "left" {
+                duration(TIME_LARGE.ms)
+                timingFunction(AnimationTimingFunction.cubicBezier(0.22, 0.9, 0.29, 1.0))
+            }
+        }
+    }
+
+    @OptIn(ExperimentalComposeWebApi::class)
+    val mobileMenuContainerTransitionedClass by style {
+        left(0.px)
+    }
+
+    val flexColumnDefaultClass by style {
+        display(DisplayStyle.Flex)
+        flexDirection(FlexDirection.Column)
     }
 
     val textButtonClass by style {
@@ -236,7 +283,7 @@ class SiteStyleSheet(val sitePalette: SitePalette) : StyleSheet() {
         color(SiteColors.lightGray)
         backgroundColor(SiteColors.overlayTransparent)
         borderWidth(0.px)
-        padding(10.px)
+        padding(16.px)
         cursor("pointer")
     }
 

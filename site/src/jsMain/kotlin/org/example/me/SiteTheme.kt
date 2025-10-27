@@ -53,7 +53,7 @@ object SitePalettes {
             accent = SiteColors.blueMarin,
         ),
         surfaceVariant = Colors.DarkSlateBlue,
-        overlayTransparent = Color.rgba(255, 255, 255, 0.1f)
+        overlayTransparent = Color.rgba(255, 255, 255, 0.2f)
     )
 }
 

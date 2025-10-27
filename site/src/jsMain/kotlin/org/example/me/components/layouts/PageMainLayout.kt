@@ -11,6 +11,7 @@ import com.varabyte.kobweb.silk.components.icons.fa.IconCategory
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.example.kobwebemptyproject.models.ui.NavItem
+import org.example.me.AnimationTiming
 import org.example.me.AppStyles.siteStyleSheet
 import org.example.me.SiteColors
 import org.example.me.components.sections.NavBarContainer
@@ -50,7 +51,7 @@ fun AppContainerLayoutScope.PageMainLayout(
         selectedButton = navItem
         if (isMobileMenu) {
             coroutineScope.launch {
-                delay(100)
+                delay(AnimationTiming.TIME_VERY_FAST.toLong())
                 isMobileMenuOpen = false
                 navigate()
             }
@@ -73,7 +74,7 @@ fun AppContainerLayoutScope.PageMainLayout(
             isMobileMenuOpen = boolean
         }
     )
-    MobileMenuOverlayContainer(
+    MobileMenuRootContainer(
         navItems = navItems,
         selectedButton = selectedButton,
         isMobileMenuOpen = isMobileMenuOpen,
@@ -88,26 +89,56 @@ fun AppContainerLayoutScope.PageMainLayout(
 }
 
 @Composable
-fun MobileMenuOverlayContainer(
+fun MobileMenuRootContainer(
     navItems: List<NavItem>,
     selectedButton: NavItem,
     isMobileMenuOpen: Boolean,
     onNavItemButtonClick: (NavItem) -> Unit,
     onCloseButtonClick: () -> Unit
 ) {
-    Div(attrs = {
-        id("mobileMenuOverlayClass")
-        classes(
-            if (isMobileMenuOpen) {
-                listOf(
-                    siteStyleSheet.mobileMenuOverlayClass
-                )
-            } else {
-                listOf(siteStyleSheet.displayNone)
+    val styles = remember { mutableStateListOf(siteStyleSheet.mobileMenuRootContainerHiddenClass) }
+
+    LaunchedEffect(key1 = isMobileMenuOpen) {
+        if (isMobileMenuOpen) {
+            styles.add(siteStyleSheet.mobileMenuRootContainerVisibleClass)
+        } else {
+            if (styles.contains(siteStyleSheet.mobileMenuRootContainerVisibleClass)) {
+                delay(AnimationTiming.TIME_LARGE.toLong())
+                styles.remove(siteStyleSheet.mobileMenuRootContainerVisibleClass)
             }
+        }
+    }
+
+    Div(attrs = {
+        classes(styles)
+    }) {
+        MobileMenuOverlay(
+            isMobileMenuOpen = isMobileMenuOpen,
+            navItems = navItems,
+            selectedButton = selectedButton,
+            onNavItemButtonClick = onNavItemButtonClick,
+            onCloseButtonClick = onCloseButtonClick
         )
+    }
+}
+
+
+@Composable
+fun MobileMenuOverlay(
+    isMobileMenuOpen: Boolean,
+    navItems: List<NavItem>,
+    selectedButton: NavItem,
+    onNavItemButtonClick: (NavItem) -> Unit,
+    onCloseButtonClick: () -> Unit
+) {
+    val styles = mutableListOf(siteStyleSheet.mobileMenuOverlayContainerClass).apply {
+        if (isMobileMenuOpen) add(siteStyleSheet.mobileMenuOverlayTransitionedContainerClass)
+    }
+    Div(attrs = {
+        classes(styles)
     }) {
         MobileMenuContainer(
+            isMobileMenuOpen = isMobileMenuOpen,
             onCloseButtonClick = onCloseButtonClick,
             navItems = navItems,
             selectedButton = selectedButton,
@@ -117,15 +148,19 @@ fun MobileMenuOverlayContainer(
 }
 
 @Composable
-private fun MobileMenuContainer(
+fun MobileMenuContainer(
+    isMobileMenuOpen: Boolean,
     onCloseButtonClick: () -> Unit,
     navItems: List<NavItem>,
     selectedButton: NavItem,
     onNavItemButtonClick: (NavItem) -> Unit
 ) {
+    val styles = mutableListOf(siteStyleSheet.flexColumnDefaultClass, siteStyleSheet.mobileMenuContainerClass).apply {
+        if (isMobileMenuOpen) add(siteStyleSheet.mobileMenuContainerTransitionedClass)
+    }
     Div(attrs = {
         id("mobileMenuContainer")
-        classes(siteStyleSheet.flexColumnDefaultClass, siteStyleSheet.mobileMenuContainerClass)
+        classes(styles)
     }) {
         CloseButtonContainer(
             onCloseButtonClick = onCloseButtonClick
@@ -142,7 +177,7 @@ private fun MobileMenuContainer(
 
 
 @Composable
-private fun CloseButtonContainer(
+fun CloseButtonContainer(
     onCloseButtonClick: () -> Unit,
 ) {
     Div(attrs = {
@@ -170,7 +205,7 @@ private fun CloseButtonContainer(
 }
 
 @Composable
-private fun PortraitMenuButtons(
+fun PortraitMenuButtons(
     navItems: List<NavItem>,
     selectedButton: NavItem,
     onNavItemButtonClick: (NavItem) -> Unit
