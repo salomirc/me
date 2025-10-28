@@ -119,29 +119,23 @@ class SiteStyleSheet(val sitePalette: SitePalette) : StyleSheet() {
             query = screenBreakMinTo589px
         ) {
             self style {
-                maxHeight(100.percent)
+                maxHeight(40.percent)
                 maxWidth(100.percent)
             }
         }
     }
 
     val helloBoxImageClass by style {
-        textAlign("center")
-
-        // media query
-        media(
-            query = screenBreakMinTo589px
-        ) {
-            self style {
-                maxHeight(70.percent)
-            }
-        }
+        display(DisplayStyle.Flex)
+        flexDirection(FlexDirection.Row)
+        justifyContent(JustifyContent.Center)
+        alignItems(AlignItems.Center)
     }
 
     val helloImageClass by style {
         borderRadius(10.percent)
         objectFit(ObjectFit.Contain)
-        maxWidth(80.percent)
+        maxWidth(75.percent)
 
         // media query
         media(
@@ -149,7 +143,7 @@ class SiteStyleSheet(val sitePalette: SitePalette) : StyleSheet() {
         ) {
             self style {
                 maxHeight(100.percent)
-                maxWidth(80.percent)
+                maxWidth(100.percent)
             }
         }
     }
