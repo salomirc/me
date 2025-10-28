@@ -84,7 +84,7 @@ fun AndroidMeComposable() {
     }) {
         Img(
             alt = "androidify_me",
-            src = BasePath.prependTo("/images/androidify_me.png"),
+            src = BasePath.prependTo("/images/androidify_me.jpg"),
             attrs = {
                 classes(siteStyleSheet.helloImageClass)
             }

@@ -213,7 +213,7 @@ class SiteStyleSheet(val sitePalette: SitePalette) : StyleSheet() {
         left(0.px)
         right(0.px)
         top(0.px)
-        bottom(0.px)
+        bottom((-100).px)
         width(auto)
         height(auto)
         visibility(Visibility.Hidden)
