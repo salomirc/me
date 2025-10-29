@@ -186,7 +186,7 @@ fun PageTitle(
 ) {
     H1(attrs = {
         style {
-            fontSize(24.px)
+            fontSize(28.px)
         }
     }) {
         Text(text)

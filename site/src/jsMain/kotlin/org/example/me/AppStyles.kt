@@ -29,10 +29,6 @@ object AnimationTiming {
 
 class SiteStyleSheet(val sitePalette: SitePalette) : StyleSheet() {
     init {
-        "*" style {
-            fontFamily("sans-serif")
-        }
-
         "html" style {
             // 62.5% of 16px = 10px
             fontSize(62.5.percent)
@@ -41,6 +37,12 @@ class SiteStyleSheet(val sitePalette: SitePalette) : StyleSheet() {
         "body" style {
             // 160% of 10px = 16px
             fontSize(160.percent)
+            fontFamily("system-ui")
+        }
+
+        "p, ul" style {
+            fontSize(1.6.cssRem)
+            lineHeight(2.2.cssRem)
         }
     }
 
@@ -169,6 +171,7 @@ class SiteStyleSheet(val sitePalette: SitePalette) : StyleSheet() {
 
         fontSize(3.vw)
         color(SiteColors.gray)
+        fontFamily("sans-serif")
 
         // media query
         media(
