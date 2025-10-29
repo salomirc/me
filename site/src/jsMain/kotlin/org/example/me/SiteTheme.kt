@@ -7,8 +7,6 @@ import com.varabyte.kobweb.silk.init.InitSilkContext
 import com.varabyte.kobweb.silk.theme.colors.ColorMode
 import com.varabyte.kobweb.silk.theme.colors.palette.background
 import com.varabyte.kobweb.silk.theme.colors.palette.color
-import org.example.me.SiteColors.nearBlack
-import org.example.me.SiteColors.nearWhite
 import org.jetbrains.compose.web.css.CSSColorValue
 
 /**
@@ -20,6 +18,7 @@ data class SitePalette(
     val siteColorInverse: CSSColorValue,
     val nearBackground: CSSColorValue,
     val cobweb: CSSColorValue,
+    val contourBackground: CSSColorValue,
     val brand: Brand,
     val surfaceVariant: CSSColorValue,
     val overlayTransparent: CSSColorValue
@@ -36,6 +35,7 @@ object SitePalettes {
         siteColorInverse = Colors.White,
         nearBackground = Color.rgb(0xe4e4e4),
         cobweb = Colors.LightGray,
+        contourBackground = Colors.White,
         brand = SitePalette.Brand(
             primary = SiteColors.darkGray,
             accent = SiteColors.blueMarin,
@@ -44,10 +44,11 @@ object SitePalettes {
         overlayTransparent = Color.rgba(0, 0, 0, 0.5f)
     )
     val dark = SitePalette(
-        siteColor = SiteColors.lightGray,
+        siteColor = SiteColors.ultraLightGray,
         siteColorInverse = Colors.Black,
         nearBackground = Color.rgb(0x13171F),
         cobweb = Colors.LightGray.inverted(),
+        contourBackground = SiteColors.lightGray,
         brand = SitePalette.Brand(
             primary = SiteColors.heavyDarkGray,
             accent = SiteColors.blueMarin,
@@ -58,13 +59,14 @@ object SitePalettes {
 }
 
 object SiteColors {
+    val nearWhite = Color.rgb(0xFAFAFA)
+    val ultraLightGray = Color.rgb(0xe8e8e8)
+    val lightGray = Color.rgb(0xe8e8e8)
     val gray = Color.rgb(0x696969)
     val darkGray = Color.rgb(0x363636)
     val heavyDarkGray = Color.rgb(0x181818)
     val nearBlack = Color.rgb(0x06080B)
     val blueMarin = Color.rgb(0x4b959f)
-    val nearWhite = Color.rgb(0xFAFAFA)
-    val lightGray = Color.rgb(0xe8e8e8)
     val yellow = Color.rgb(0xfae88a)
     val ocru = Color.rgb(0xbab15b)
     val occruLight = Color.rgb(0xdad86c)
@@ -80,8 +82,8 @@ fun ColorMode.toSitePalette(): SitePalette {
 
 @InitSilk
 fun initTheme(ctx: InitSilkContext) {
-    ctx.theme.palettes.light.background = nearWhite
+    ctx.theme.palettes.light.background = SiteColors.nearWhite
     ctx.theme.palettes.light.color = Colors.Black
-    ctx.theme.palettes.dark.background = nearBlack
+    ctx.theme.palettes.dark.background = SiteColors.nearBlack
     ctx.theme.palettes.dark.color = Colors.White
 }

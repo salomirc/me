@@ -36,6 +36,7 @@ fun NumberBox(
 @Composable
 fun TextButton(
     text: String,
+    textFontSize: CSSNumeric = 12.px,
     isSelected: Boolean,
     onClick: () -> Unit
 ) {
@@ -49,17 +50,23 @@ fun TextButton(
             onClick()
         }
     }) {
-        Text(text)
+        Span(attrs = {
+            style {
+                fontSize(textFontSize)
+            }
+        }) {
+            Text(text)
+        }
     }
 }
 
 @Composable
 fun IconButton(
+    fontSize: CSSNumeric = 30.px,
+    onClick: () -> Unit,
     id: String? = null,
     styles: List<String>? = null,
-    fontSize: CSSNumeric = 30.px,
-    backgroundColor: CSSColorValue,
-    onClick: () -> Unit,
+    inlineStyle: (StyleScope.() -> Unit)? = null,
     content: @Composable () -> Unit
 ) {
     val styles: MutableList<String> = mutableListOf(AppStyles.siteStyleSheet.iconButtonClass).apply {
@@ -74,7 +81,7 @@ fun IconButton(
         }
         classes(styles)
         style {
-            backgroundColor(backgroundColor)
+            inlineStyle?.invoke(this)
         }
     }) {
         Div(attrs = {
@@ -95,7 +102,8 @@ fun TextIconButton(
     isSelected: Boolean = false,
     iconFontSize: CSSNumeric = 24.px,
     textFontSize: CSSNumeric = 12.px,
-    styles: List<String>? = null
+    styles: List<String>? = null,
+    inlineStyle: (StyleScope.() -> Unit)? = null
 ) {
     val styles: MutableList<String> = mutableListOf(AppStyles.siteStyleSheet.textIconButtonClass).apply {
         styles?.let { this.addAll(it) }
@@ -108,7 +116,17 @@ fun TextIconButton(
             onClick()
         }
     }) {
-        Div {
+        Div(attrs = {
+            style {
+                display(DisplayStyle.Flex)
+                flexDirection(FlexDirection.Column)
+                justifyContent(JustifyContent.Center)
+                alignItems(AlignItems.Center)
+                gap(2.px)
+                inlineStyle?.invoke(this)
+            }
+        }
+        ) {
             Div(attrs = {
                 style {
                     fontSize(iconFontSize)
@@ -152,12 +170,22 @@ fun Spacer(
 }
 
 @Composable
+fun PageContainer(
+    content: @Composable () -> Unit
+) {
+    Div(attrs = {
+        classes(AppStyles.siteStyleSheet.pageContainerClass)
+    }) {
+        content()
+    }
+}
+
+@Composable
 fun PageTitle(
     text: String
 ) {
     H1(attrs = {
         style {
-            fontFamily("Verdana")
             fontSize(24.px)
         }
     }) {

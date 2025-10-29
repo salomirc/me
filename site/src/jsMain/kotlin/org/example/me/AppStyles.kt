@@ -1,9 +1,11 @@
 package org.example.me
 
+import com.varabyte.kobweb.compose.css.BoxShadow
 import com.varabyte.kobweb.compose.css.FontWeight
 import com.varabyte.kobweb.compose.css.ObjectFit
 import com.varabyte.kobweb.compose.css.Visibility
 import com.varabyte.kobweb.compose.css.borderBottom
+import com.varabyte.kobweb.compose.css.boxShadow
 import com.varabyte.kobweb.compose.css.fontWeight
 import com.varabyte.kobweb.compose.css.objectFit
 import com.varabyte.kobweb.compose.css.visibility
@@ -28,7 +30,7 @@ object AnimationTiming {
 class SiteStyleSheet(val sitePalette: SitePalette) : StyleSheet() {
     init {
         "*" style {
-            fontFamily("Verdana", "sans-serif")
+            fontFamily("sans-serif")
         }
 
         "html" style {
@@ -88,7 +90,7 @@ class SiteStyleSheet(val sitePalette: SitePalette) : StyleSheet() {
     }
 
     val pageContainerClass by style {
-        paddingTop(100.px)
+        padding(100.px, 16.px, 16.px, 16.px)
     }
 
     val homePageContainerClass by style {
@@ -97,6 +99,7 @@ class SiteStyleSheet(val sitePalette: SitePalette) : StyleSheet() {
         justifyContent(JustifyContent.Center)
         alignItems(AlignItems.Center)
         height(100.vh)
+        padding(100.px, 0.px, 0.px, 0.px)
 
         // media query
         media(
@@ -134,6 +137,16 @@ class SiteStyleSheet(val sitePalette: SitePalette) : StyleSheet() {
 
     val helloImageClass by style {
         borderRadius(10.percent)
+        backgroundColor(sitePalette.contourBackground)
+        padding(8.px)
+        boxShadow(
+            BoxShadow.of(
+            offsetX = 0.px,
+            offsetY = 0.px,
+            blurRadius = 48.px,
+            color = sitePalette.overlayTransparent
+            )
+        )
         objectFit(ObjectFit.Contain)
         maxWidth(75.percent)
 
@@ -154,7 +167,6 @@ class SiteStyleSheet(val sitePalette: SitePalette) : StyleSheet() {
         justifyContent(JustifyContent.Center)
         alignItems(AlignItems.FlexStart)
 
-        fontFamily("Verdana")
         fontSize(3.vw)
         color(SiteColors.gray)
 
@@ -274,7 +286,7 @@ class SiteStyleSheet(val sitePalette: SitePalette) : StyleSheet() {
     val textButtonClass by style {
         display(DisplayStyle.Block)
         width(100.percent)
-        color(SiteColors.lightGray)
+        color(SiteColors.ultraLightGray)
         backgroundColor(SiteColors.overlayTransparent)
         borderWidth(0.px)
         padding(16.px)
@@ -288,7 +300,7 @@ class SiteStyleSheet(val sitePalette: SitePalette) : StyleSheet() {
 
     val textIconButtonClass by style {
         borderRadius(4.px, 4.px, 0.px, 0.px)
-        color(SiteColors.lightGray)
+        color(SiteColors.ultraLightGray)
         backgroundColor(Color.transparent)
         borderWidth(0.px)
         padding(8.px, 16.px)
@@ -297,7 +309,7 @@ class SiteStyleSheet(val sitePalette: SitePalette) : StyleSheet() {
     }
 
     val iconButtonClass by style {
-        color(SiteColors.lightGray)
+        color(SiteColors.ultraLightGray)
         backgroundColor(Color.transparent)
         borderWidth(0.px)
         padding(8.px, 16.px)

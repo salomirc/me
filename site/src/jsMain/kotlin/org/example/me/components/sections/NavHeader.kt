@@ -11,11 +11,12 @@ import com.varabyte.kobweb.silk.components.icons.fa.FaIcon
 import com.varabyte.kobweb.silk.components.icons.fa.IconCategory
 import com.varabyte.kobweb.silk.theme.colors.ColorMode
 import org.example.kobwebemptyproject.models.ui.NavItem
-import org.example.me.AppStyles
+import org.example.me.AppStyles.siteStyleSheet
 import org.example.me.components.widgets.IconButton
 import org.example.me.components.widgets.Spacer
 import org.example.me.components.widgets.TextIconButton
 import org.jetbrains.compose.web.css.Color
+import org.jetbrains.compose.web.css.backgroundColor
 import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.dom.Div
 
@@ -30,7 +31,7 @@ fun NavBarContainer(
 
     Div(attrs = {
         id("navBarContainer")
-        classes(AppStyles.siteStyleSheet.navBarContainer)
+        classes(siteStyleSheet.navBarContainer)
     }) {
         NavBarLandscapeMenu(
             navItems = navItems,
@@ -52,7 +53,7 @@ fun NavBarLandscapeMenu(
 ) {
     Div(attrs = {
         id("navBarHorizontalContainer")
-        classes(AppStyles.siteStyleSheet.navBarHorizontalContainer)
+        classes(siteStyleSheet.navBarHorizontalContainer)
     }) {
         MobileBarsMenuButton(
             onClick = onBarsMenuButtonClick
@@ -79,7 +80,7 @@ fun NavButtonsLandscape(
             text = navItem.title,
             onClick = { onClick(navItem) },
             isSelected = selectedButton == navItem,
-            styles = listOf(AppStyles.siteStyleSheet.displayNoneMax640pxMediaQuery),
+            styles = listOf(siteStyleSheet.displayNoneMax640pxMediaQuery),
         )
     }
 }
@@ -90,9 +91,11 @@ fun MobileBarsMenuButton(
 ) {
     IconButton(
         id = "barsMenuButton",
-        styles = listOf(AppStyles.siteStyleSheet.barsMenuClass),
+        styles = listOf(siteStyleSheet.barsMenuClass),
         onClick = onClick,
-        backgroundColor = Color.transparent,
+        inlineStyle = {
+            backgroundColor(Color.transparent)
+        },
         content = {
             FaIcon(
                 name = "bars",
@@ -111,7 +114,9 @@ fun ChangeThemeIconButton() {
         onClick = {
             colorMode = colorMode.opposite
         },
-        backgroundColor = Color.transparent,
+        inlineStyle = {
+            backgroundColor(Color.transparent)
+        },
         content = {
             if (colorMode.isLight) {
                 MoonIcon(

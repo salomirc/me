@@ -16,10 +16,7 @@ import org.example.me.SiteColors
 import org.example.me.components.widgets.IconButton
 import org.example.me.components.widgets.Spacer
 import org.example.me.components.widgets.TextButton
-import org.jetbrains.compose.web.css.flexGrow
-import org.jetbrains.compose.web.css.paddingBottom
-import org.jetbrains.compose.web.css.px
-import org.jetbrains.compose.web.css.textAlign
+import org.jetbrains.compose.web.css.*
 import org.jetbrains.compose.web.dom.Div
 
 @Composable
@@ -133,7 +130,9 @@ fun CloseButtonContainer(
             styles = listOf(siteStyleSheet.simpleIconButtonClass),
             fontSize = 16.px,
             onClick = onCloseButtonClick,
-            backgroundColor = SiteColors.overlayTransparent,
+            inlineStyle = {
+                backgroundColor(SiteColors.overlayTransparent)
+            },
             content = {
                 FaIcon(
                     name = "xmark",
@@ -154,10 +153,33 @@ fun PortraitMenuButtons(
     navItems.forEach { navItem ->
         TextButton(
             text = navItem.title,
+            textFontSize = 16.px,
             isSelected = selectedButton == navItem,
             onClick = {
                 onNavItemButtonClick(navItem)
             }
         )
     }
+//    navItems.forEach { navItem ->
+//        TextIconButton(
+//            iconName = navItem.iconName,
+//            text = navItem.title,
+//            onClick = { onNavItemButtonClick(navItem) },
+//            isSelected = selectedButton == navItem,
+//            textFontSize = 16.px,
+//            inlineStyle = {
+//                flexDirection(FlexDirection.Row)
+//                justifyContent(JustifyContent.FlexStart)
+//                alignItems(AlignItems.Center)
+//                gap(16.px)
+//
+//                width(100.percent)
+//                color(SiteColors.ultraLightGray)
+//                backgroundColor(SiteColors.overlayTransparent)
+//                borderWidth(0.px)
+//                padding(8.px)
+//                cursor("pointer")
+//            }
+//        )
+//    }
 }
