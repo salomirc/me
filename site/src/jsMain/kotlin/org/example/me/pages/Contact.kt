@@ -10,6 +10,9 @@ import com.varabyte.kobweb.silk.theme.colors.ColorMode
 import org.example.me.AppStyles
 import org.example.me.components.widgets.PageTitle
 import org.jetbrains.compose.web.dom.Div
+import org.jetbrains.compose.web.dom.Li
+import org.jetbrains.compose.web.dom.Text
+import org.jetbrains.compose.web.dom.Ul
 
 @Page
 @Composable
@@ -20,6 +23,11 @@ fun ContactPage(ctx: PageContext) {
         classes(AppStyles.siteStyleSheet.pageContainerClass)
     }) {
         PageTitle("Contact")
+        Ul {
+            Li { Text("Feel free to reach out to me via mail or any of the listed mediums") }
+            Li { Text("Email") }
+            Li { Text("Contact form") }
+        }
     }
 }
 
