@@ -1,76 +1,112 @@
 package org.example.me.components.layouts
 
 import androidx.compose.runtime.*
-import com.varabyte.kobweb.core.PageContext
+import com.varabyte.kobweb.compose.css.FontSize
+import com.varabyte.kobweb.compose.css.FontWeight
+import com.varabyte.kobweb.compose.css.fontSize
+import com.varabyte.kobweb.compose.css.fontWeight
 import com.varabyte.kobweb.core.layout.Layout
-import com.varabyte.kobweb.navigation.BasePath
+import com.varabyte.kobweb.silk.theme.colors.ColorMode
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import org.example.kobwebemptyproject.models.ui.NavItem
-import org.example.me.AnimationTiming
-import org.example.me.components.sections.MobileMenuRootContainer
-import org.example.me.components.sections.NavBarContainer
+import org.example.me.components.sections.NavHeader
+import org.example.me.error_handling.ErrorAction
+import org.example.me.error_handling.MessageResourceIdWrapper
+import org.example.me.toSitePalette
+import org.example.me.view_models.MainViewModel
+import org.jetbrains.compose.web.css.backgroundColor
+import org.jetbrains.compose.web.css.padding
+import org.jetbrains.compose.web.css.px
+import org.jetbrains.compose.web.css.textAlign
+import org.jetbrains.compose.web.dom.Div
+import org.jetbrains.compose.web.dom.Span
+import org.jetbrains.compose.web.dom.Text
 
 @Layout(".components.layouts.AppContainerLayout")
 @Composable
 fun AppContainerLayoutScope.PageMainLayout(
-    ctx: PageContext,
     content: @Composable AppContainerLayoutScope.() -> Unit
 ) {
-    val currentPath = ctx.route.path
-    val navItems = remember {
-        listOf(
-            NavItem(title = "Home", iconName = "home", target = "/"),
-            NavItem(title = "About", iconName = "address-card", target = "/about"),
-            NavItem(title = "Experience", iconName = "scissors", target = "/experience"),
-            NavItem(title = "Projects", iconName = "plane-departure", target = "/projects"),
-            NavItem(title = "Contact", iconName = "square-envelope", target = "/contact"),
-        )
-    }
+    val mainViewModel: MainViewModel = remember { this.provideMainViewModel() }
+    val model by mainViewModel.modelStateFlow.collectAsState()
 
-    var isMobileMenuOpen by remember { mutableStateOf(false) }
-    var selectedButton by remember { mutableStateOf(navItems[0]) }
-
-    val coroutineScope = rememberCoroutineScope()
-
-    fun onNavItemButtonClick(navItem: NavItem, isMobileMenu: Boolean = false) {
-        fun navigate() = ctx.router.navigateTo(navItem.target)
-        selectedButton = navItem
-        if (isMobileMenu) {
-            coroutineScope.launch {
-                delay(AnimationTiming.TIME_VERY_FAST.toLong())
-                isMobileMenuOpen = false
-                navigate()
-            }
-        } else {
-            navigate()
-        }
-    }
-
-    LaunchedEffect(currentPath) {
-        console.log("ctx.route.path = $currentPath")
-        navItems.find { BasePath.prependTo(it.target) == currentPath }?.let { selectedButton = it }
-    }
-
-    NavBarContainer(
-        navItems = navItems,
-        selectedButton = selectedButton,
-        isMobileMenuOpen = isMobileMenuOpen,
-        onNavItemButtonClick = ::onNavItemButtonClick,
-        onMobileMenuOpen = { boolean ->
-            isMobileMenuOpen = boolean
-        }
+    MainLayout(
+        model = model,
+        processEvent = mainViewModel::processEvent,
+        content = content,
     )
-    MobileMenuRootContainer(
-        navItems = navItems,
-        selectedButton = selectedButton,
-        isMobileMenuOpen = isMobileMenuOpen,
-        onNavItemButtonClick = { navItem ->
-            onNavItemButtonClick(navItem = navItem, isMobileMenu = true)
-        },
-        onCloseButtonClick = {
-            isMobileMenuOpen = false
-        }
+}
+
+@Composable
+fun AppContainerLayoutScope.MainLayout(
+    model: MainViewModel.Model,
+    processEvent: suspend (MainViewModel.Event) -> Unit,
+    content: @Composable AppContainerLayoutScope.() -> Unit
+) {
+    val colorMode by ColorMode.currentState
+
+    LaunchedEffect(Unit) {
+        processEvent(MainViewModel.Event.CollectMessageResourceIdWrapper)
+    }
+
+    LaunchedEffect(Unit) {
+        processEvent(MainViewModel.Event.StartProcessNextMessageLoop)
+    }
+
+    NavHeader()
+    GlobalActionAndMessageToastSetUp(
+        colorMode = colorMode,
+        messageResourceIdWrapper = model.messageResourceIdWrapper,
+        processEvent = processEvent
     )
     this.content()
+}
+
+@Composable
+private fun GlobalActionAndMessageToastSetUp(
+    colorMode: ColorMode,
+    messageResourceIdWrapper: MessageResourceIdWrapper?,
+    processEvent: suspend (MainViewModel.Event) -> Unit,
+) {
+    var toastMessage by remember { mutableStateOf<String?>(null) }
+
+    LaunchedEffect(messageResourceIdWrapper) {
+        messageResourceIdWrapper?.let { wrapper ->
+            console.log("MainLayout toastMessage LaunchedEffect have been called with: $messageResourceIdWrapper")
+            wrapper.message?.let { s ->
+                toastMessage = s
+            }
+            console.log("MainLayout toastMessage have been set to: ${wrapper.message}")
+            console.log("MainLayout errorAction have been set to: ${wrapper.errorAction}")
+
+            wrapper.errorAction?.let { errorAction ->
+                when (errorAction) {
+                    ErrorAction.LOG_OUT -> {
+                        processEvent(MainViewModel.Event.LogOut)
+                    }
+                }
+            }
+
+            delay(2000)
+            toastMessage = null
+        }
+    }
+
+    toastMessage?.let { message ->
+        Div(attrs = {
+            style {
+                padding(16.px)
+                textAlign("center")
+                backgroundColor(colorMode.toSitePalette().nearBackground)
+            }
+        }) {
+            Span(attrs = {
+                style {
+                    fontWeight(FontWeight.Bold)
+                    fontSize(FontSize.Medium)
+                }
+            }) {
+                Text(message)
+            }
+        }
+    }
 }

@@ -1,4 +1,4 @@
-package org.example.kobwebemptyproject.models.ui
+package org.example.me.models.ui
 
 data class NavItem(
     val title: String,

@@ -9,7 +9,7 @@ import com.varabyte.kobweb.compose.ui.modifiers.padding
 import com.varabyte.kobweb.silk.components.icons.fa.FaIcon
 import com.varabyte.kobweb.silk.components.icons.fa.IconCategory
 import kotlinx.coroutines.delay
-import org.example.kobwebemptyproject.models.ui.NavItem
+import org.example.me.models.ui.NavItem
 import org.example.me.AnimationTiming
 import org.example.me.AppStyles.siteStyleSheet
 import org.example.me.SiteColors
