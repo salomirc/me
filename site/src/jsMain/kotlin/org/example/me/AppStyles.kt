@@ -44,6 +44,14 @@ class SiteStyleSheet(val sitePalette: SitePalette) : StyleSheet() {
             fontSize(1.6.cssRem)
             lineHeight(2.2.cssRem)
         }
+
+        "input, textarea" style {
+            border {
+                width = 1.px
+                style = LineStyle.Solid
+                color = SiteColors.lightGray
+            }
+        }
     }
 
     val navBarContainer by style {
@@ -353,6 +361,10 @@ class SiteStyleSheet(val sitePalette: SitePalette) : StyleSheet() {
         val <TBuilder> GenericStyleSheetBuilder<TBuilder>.screenBreakMinTo589px: CSSMediaQuery
             get() = CSSMediaQuery.MediaType(CSSMediaQuery.MediaType.Enum.Screen)
                 .and(mediaMaxWidth(589.px))
+
+        val <TBuilder> GenericStyleSheetBuilder<TBuilder>.screenBreakMinTo799px: CSSMediaQuery
+            get() = CSSMediaQuery.MediaType(CSSMediaQuery.MediaType.Enum.Screen)
+                .and(mediaMaxWidth(799.px))
 
         val <TBuilder> GenericStyleSheetBuilder<TBuilder>.screenBreak590pxToMax: CSSMediaQuery
             get() = CSSMediaQuery.MediaType(CSSMediaQuery.MediaType.Enum.Screen)

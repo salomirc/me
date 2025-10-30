@@ -1,0 +1,133 @@
+package org.example.me.components.widgets
+
+import androidx.compose.runtime.Composable
+import org.example.me.SiteStyleSheet.Companion.screenBreakMinTo799px
+import org.example.me.components.widgets.ThreeColumnsToRowContainerStyles.box
+import org.example.me.components.widgets.ThreeColumnsToRowContainerStyles.boxOne
+import org.example.me.components.widgets.ThreeColumnsToRowContainerStyles.boxThree
+import org.example.me.components.widgets.ThreeColumnsToRowContainerStyles.boxTwo
+import org.jetbrains.compose.web.css.*
+import org.jetbrains.compose.web.dom.Div
+import org.jetbrains.compose.web.dom.Text
+
+object ThreeColumnsToRowContainerStyles: StyleSheet() {
+    val threeColumnsToRowContainer by style {
+        display(DisplayStyle.Flex)
+        flexDirection(FlexDirection.Row)
+        justifyContent(JustifyContent.FlexStart)
+        alignItems(AlignItems.FlexStart)
+        gap(1.6.cssRem)
+
+        padding(1.6.cssRem)
+        backgroundColor(Color.antiquewhite)
+
+        // media query
+        media(
+            query = screenBreakMinTo799px
+        ) {
+            self style {
+                flexDirection(FlexDirection.Column)
+                padding(0.px)
+                backgroundColor(Color.transparent)
+            }
+        }
+    }
+
+    val box by style {
+        backgroundColor(Color.gold)
+    }
+
+    val boxOne by style {
+        width(30.percent)
+
+        // media query
+        media(
+            query = screenBreakMinTo799px
+        ) {
+            self style {
+                width(100.percent)
+            }
+        }
+    }
+
+    val boxTwo by style {
+        width(30.percent)
+
+        // media query
+        media(
+            query = screenBreakMinTo799px
+        ) {
+            self style {
+                width(100.percent)
+            }
+        }
+    }
+
+    val boxThree by style {
+        width(40.percent)
+
+        // media query
+        media(
+            query = screenBreakMinTo799px
+        ) {
+            self style {
+                width(100.percent)
+            }
+        }
+    }
+}
+
+@Composable
+fun ThreeColumnsToRowContainer(
+    contentOne: @Composable () -> Unit = {
+        Text(Lorem.lenght50)
+    },
+    contentTwo: @Composable () -> Unit = {
+        Text(Lorem.lenght50)
+    },
+    contentThree: @Composable () -> Unit = {
+        Text(Lorem.lenght50)
+    },
+    boxOneClass: List<String>? = null,
+    boxTwoClass: List<String>? = null,
+    boxThreeClass: List<String>? = null
+) {
+    Style(ThreeColumnsToRowContainerStyles)
+
+    Div(attrs = {
+        classes(ThreeColumnsToRowContainerStyles.threeColumnsToRowContainer)
+    }) {
+        fun getBoxClasses() = mutableListOf(box)
+        val boxOneClasses = getBoxClasses().apply {
+            boxOneClass?.let { strings ->
+                this.addAll(strings)
+            } ?: add(boxOne)
+        }
+        val boxTwoClasses = getBoxClasses().apply {
+            boxTwoClass?.let { strings ->
+                this.addAll(strings)
+            } ?: add(boxTwo)
+        }
+        val boxThreeClasses = getBoxClasses().apply {
+            boxThreeClass?.let { strings ->
+                this.addAll(strings)
+            } ?: add(boxThree)
+        }
+        Div(attrs = {
+            classes(boxOneClasses)
+        }) {
+            contentOne()
+        }
+        Div(attrs = {
+            classes(boxTwoClasses)
+        }) {
+            contentTwo()
+        }
+        Div(attrs = {
+            classes(boxThreeClasses)
+        }) {
+            contentThree()
+        }
+    }
+}
+

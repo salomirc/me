@@ -1,6 +1,4 @@
-import com.varabyte.kobweb.common.navigation.BasePath
 import com.varabyte.kobweb.gradle.application.util.configAsKobwebApplication
-import kotlinx.html.LinkAs
 import kotlinx.html.link
 
 plugins {
@@ -8,6 +6,7 @@ plugins {
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.kobweb.application)
     alias(libs.plugins.kobwebx.markdown)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 group = "org.example.me"
@@ -32,9 +31,10 @@ kotlin {
     configAsKobwebApplication("me", includeServer = true)
 
     sourceSets {
-//        commonMain.dependencies {
-//          // Add shared dependencies between JS and JVM here
-//        }
+        commonMain.dependencies {
+          // Add shared dependencies between JS and JVM here
+            implementation(libs.kotlinx.serialization.json)
+        }
         jsMain.dependencies {
             implementation(libs.compose.runtime)
             implementation(libs.compose.html.core)
