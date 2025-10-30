@@ -3,15 +3,18 @@ package org.example.me.pages
 import androidx.compose.runtime.*
 import com.varabyte.kobweb.core.Page
 import com.varabyte.kobweb.core.layout.Layout
+import org.example.me.AppStyles
 import org.example.me.components.layouts.AppContainerLayoutScope
+import org.example.me.components.widgets.PageTitle
 import org.example.me.models.domain.UserModel
 import org.example.me.repositories.ResponseState.ActiveResponseState.Failure
 import org.example.me.repositories.ResponseState.ActiveResponseState.Success
 import org.example.me.view_models.CustomBackendDemoViewModel
 import org.jetbrains.compose.web.css.listStyleType
-import org.jetbrains.compose.web.css.padding
-import org.jetbrains.compose.web.css.px
-import org.jetbrains.compose.web.dom.*
+import org.jetbrains.compose.web.dom.Div
+import org.jetbrains.compose.web.dom.Li
+import org.jetbrains.compose.web.dom.Text
+import org.jetbrains.compose.web.dom.Ul
 
 @Page
 @Composable
@@ -35,10 +38,10 @@ fun CustomBackendDemo(
     }
 
     Div(attrs = {
-        style { padding(20.px) }
+        classes(AppStyles.siteStyleSheet.pageContainerClass)
     }) {
-        H3 { Text("Custom Backend Demo") }
-        Text("The following users were retrieved from the backend: ")
+        PageTitle("Custom Backend Demo")
+        Div { Text("The following users were retrieved from the backend: ") }
         when (model.userModelsResponseState) {
             is Success -> {
                 val users = model.userModelsResponseState.data
@@ -62,13 +65,13 @@ fun CustomBackendDemo(
 
 @Composable
 private fun UsersList(users: List<UserModel>) {
-    Ul {
+    Ul(attrs = {
+        style {
+            listStyleType("circle")
+        }
+    }) {
         users.forEach { user ->
-            Li(attrs = {
-                style {
-                    listStyleType("circle")
-                }
-            }) { Text("${user.name} (${user.email})") }
+            Li { Text("${user.name} (${user.email})") }
         }
     }
 }

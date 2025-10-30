@@ -1,19 +1,17 @@
 package org.example.me.components.layouts
 
 import androidx.compose.runtime.*
-import com.varabyte.kobweb.compose.css.FontSize
 import com.varabyte.kobweb.compose.css.FontWeight
-import com.varabyte.kobweb.compose.css.fontSize
 import com.varabyte.kobweb.compose.css.fontWeight
 import com.varabyte.kobweb.core.layout.Layout
 import com.varabyte.kobweb.silk.theme.colors.ColorMode
 import kotlinx.coroutines.delay
+import org.example.me.SiteColors
 import org.example.me.components.sections.NavHeader
 import org.example.me.error_handling.ErrorAction
 import org.example.me.error_handling.MessageResourceIdWrapper
-import org.example.me.toSitePalette
 import org.example.me.view_models.MainViewModel
-import org.jetbrains.compose.web.css.backgroundColor
+import org.jetbrains.compose.web.css.color
 import org.jetbrains.compose.web.css.padding
 import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.css.textAlign
@@ -52,11 +50,14 @@ fun AppContainerLayoutScope.MainLayout(
         processEvent(MainViewModel.Event.StartProcessNextMessageLoop)
     }
 
-    NavHeader()
-    GlobalActionAndMessageToastSetUp(
-        colorMode = colorMode,
-        messageResourceIdWrapper = model.messageResourceIdWrapper,
-        processEvent = processEvent
+    NavHeader(
+        globalMessageContent = {
+            GlobalActionAndMessageToastSetUp(
+                colorMode = colorMode,
+                messageResourceIdWrapper = model.messageResourceIdWrapper,
+                processEvent = processEvent
+            )
+        }
     )
     this.content()
 }
@@ -94,15 +95,14 @@ private fun GlobalActionAndMessageToastSetUp(
     toastMessage?.let { message ->
         Div(attrs = {
             style {
-                padding(16.px)
+                padding(8.px)
                 textAlign("center")
-                backgroundColor(colorMode.toSitePalette().nearBackground)
+                color(SiteColors.ultraLightGray)
             }
         }) {
             Span(attrs = {
                 style {
                     fontWeight(FontWeight.Bold)
-                    fontSize(FontSize.Medium)
                 }
             }) {
                 Text(message)

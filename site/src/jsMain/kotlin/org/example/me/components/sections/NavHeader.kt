@@ -24,7 +24,7 @@ import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.dom.Div
 
 @Composable
-fun NavHeader() {
+fun NavHeader(globalMessageContent: @Composable () -> Unit) {
     val ctx = rememberPageContext()
     val currentPath = ctx.route.path
     val navItems = remember {
@@ -69,7 +69,8 @@ fun NavHeader() {
         onNavItemButtonClick = ::onNavItemButtonClick,
         onMobileMenuOpen = { boolean ->
             isMobileMenuOpen = boolean
-        }
+        },
+        globalMessageContent
     )
     MobileMenuRootContainer(
         navItems = navItems,
@@ -90,7 +91,8 @@ fun NavBarContainer(
     selectedButton: NavItem,
     isMobileMenuOpen: Boolean,
     onNavItemButtonClick: (NavItem) -> Unit,
-    onMobileMenuOpen: (Boolean) -> Unit
+    onMobileMenuOpen: (Boolean) -> Unit,
+    globalMessageContent: @Composable () -> Unit
 ) {
 
     Div(attrs = {
@@ -105,6 +107,7 @@ fun NavBarContainer(
                 onMobileMenuOpen(!isMobileMenuOpen)
             }
         )
+        globalMessageContent()
     }
 }
 
