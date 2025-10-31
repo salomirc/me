@@ -7,7 +7,9 @@ import org.example.me.api_caller.WebApiCaller
 import org.example.me.error_handling.ErrorHandler
 import org.example.me.error_handling.ErrorHandlerBroadcastService
 import org.example.me.repositories.BlogRepository
+import org.example.me.repositories.SendMailRepository
 import org.example.me.use_cases.GetUsersUseCase
+import org.example.me.view_models.ContactViewModel
 import org.example.me.view_models.CustomBackendDemoViewModel
 import org.example.me.view_models.MainViewModel
 
@@ -26,6 +28,10 @@ class AppContainerLayoutScope {
 
     val apiCaller = WebApiCaller()
 
+    fun provideMainViewModel(): MainViewModel {
+        return MainViewModel(broadcastService = ErrorHandlerBroadcastService)
+    }
+
     fun provideCustomBackendDemoViewModel(): CustomBackendDemoViewModel {
         return CustomBackendDemoViewModel(
             getUsersUseCase = GetUsersUseCase(
@@ -39,7 +45,14 @@ class AppContainerLayoutScope {
         )
     }
 
-    fun provideMainViewModel(): MainViewModel {
-        return MainViewModel(broadcastService = ErrorHandlerBroadcastService)
+    fun provideContactViewModel(): ContactViewModel {
+        return ContactViewModel(
+            sendMailRepository = SendMailRepository(
+                apiCaller = apiCaller
+            ),
+            errorHandler = ErrorHandler(
+                viewModelName = ContactViewModel.TAG
+            )
+        )
     }
 }

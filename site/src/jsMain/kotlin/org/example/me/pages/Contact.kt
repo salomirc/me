@@ -5,17 +5,20 @@ import com.varabyte.kobweb.compose.foundation.layout.Row
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.modifiers.margin
 import com.varabyte.kobweb.core.Page
-import com.varabyte.kobweb.core.PageContext
 import com.varabyte.kobweb.core.layout.Layout
 import com.varabyte.kobweb.silk.theme.colors.ColorMode
 import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
 import org.example.me.AppStyles
 import org.example.me.SiteStyleSheet.Companion.screenBreakMinTo799px
+import org.example.me.components.layouts.AppContainerLayoutScope
 import org.example.me.components.widgets.Lorem
 import org.example.me.components.widgets.PageTitle
 import org.example.me.components.widgets.Spacer
 import org.example.me.components.widgets.ThreeColumnsToRowContainer
+import org.example.me.repositories.ResponseState.ActiveResponseState.Failure
+import org.example.me.repositories.ResponseState.ActiveResponseState.Success
+import org.example.me.view_models.ContactViewModel
 import org.jetbrains.compose.web.attributes.*
 import org.jetbrains.compose.web.css.*
 import org.jetbrains.compose.web.dom.*
@@ -75,9 +78,20 @@ object ContactStyleSheet: StyleSheet() {
 @Page
 @Composable
 @Layout(".components.layouts.PageMainLayout")
-fun ContactPage(ctx: PageContext) {
-    var colorMode: ColorMode by ColorMode.currentState
+fun AppContainerLayoutScope.ContactPage() {
+    val viewModel: ContactViewModel = remember { this.provideContactViewModel() }
+    val model by viewModel.modelStateFlow.collectAsState()
+    Contact(
+        model = model,
+        processEvent = viewModel::processEvent
+    )
+}
 
+@Composable
+fun Contact(
+    model: ContactViewModel.Model,
+    processEvent: suspend (ContactViewModel.Event) -> Unit,
+) {
     Style(ContactStyleSheet)
 
     Div(attrs = {
@@ -88,9 +102,15 @@ fun ContactPage(ctx: PageContext) {
             boxOneClass = listOf(ContactStyleSheet.boxOne),
             boxTwoClass = listOf(ContactStyleSheet.boxTwo),
             boxThreeClass = listOf(ContactStyleSheet.boxThree),
-            contentOne = { ContactForm(colorMode) },
-            contentTwo = { ContentOne() },
-            contentThree = { ContentOne() }
+            contentOne = {
+                ContactForm(model, processEvent)
+            },
+            contentTwo = {
+                ContentOne()
+            },
+            contentThree = {
+                ContentOne()
+            }
         )
     }
 }
@@ -107,13 +127,17 @@ fun ContentOne() {
 }
 
 @Composable
-fun ContactForm(colorMode: ColorMode) {
+fun ContactForm(
+    model: ContactViewModel.Model,
+    processEvent: suspend (ContactViewModel.Event) -> Unit,
+) {
     var name by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var message by remember { mutableStateOf("") }
-    var status by remember { mutableStateOf<String?>(null) }
 
     val coroutineScope = rememberCoroutineScope()
+
+    var colorMode: ColorMode by ColorMode.currentState
 
     Div(attrs = {
         style {
@@ -159,16 +183,14 @@ fun ContactForm(colorMode: ColorMode) {
                 name = "send message",
                 onClick = {
                     coroutineScope.launch {
-//                    val response = window.fetch(
-//                        "/api/sendEmail",
-//                        RequestInit(
-//                            method = "POST",
-//                            headers = js("{ 'Content-Type': 'application/json' }") as Headers,
-//                            body = JSON.stringify(ContactData(name, email, message))
-//                        )
-//                    ).await()
-//
-//                    status = if (response.ok) "✅ Message sent!" else "❌ Failed to send."
+
+                        processEvent(
+                            ContactViewModel.Event.SendEmail(
+                                name = name,
+                                email = email,
+                                message = message
+                            )
+                        )
                     }
                 }
             )
@@ -184,7 +206,26 @@ fun ContactForm(colorMode: ColorMode) {
             )
         }
 
-        status?.let { Div { Text(it) } }
+        Div {
+            when (model.sendMailResponseState) {
+                is Success -> {
+                    val response = model.sendMailResponseState.data
+                    if (response.isSuccess) {
+                        Text("✅ Message sent!")
+                    } else {
+                        Text("❌ Server failed to send the message!")
+                    }
+                }
+
+                is Failure -> {
+                    Text("❌ Sorry, something went wrong!")
+                }
+
+                else -> {
+                    Text("Loading users...")
+                }
+            }
+        }
     }
 }
 
