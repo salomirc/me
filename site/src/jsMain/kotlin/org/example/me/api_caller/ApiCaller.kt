@@ -59,19 +59,22 @@ class WebApiCaller() : IWebApiCaller {
     override suspend fun rawUnit(callBlock: suspend () -> Response): Result<ApiSuccess<Unit>> {
         return networkCallHandling(
             callBlock = callBlock,
-            // Equivalent to { bytes -> Unit }
-            handleResponseBody = { _ -> }
+            handleResponseBody = { bytes ->
+                if (bytes.isEmpty()) Unit else {
+                    throw NonEmptyByteArrayResponseBodyException(NULL_BODY_EXPECTED_MESSAGE)
+                }
+            }
         )
     }
 
     override suspend fun rawNullable(callBlock: suspend () -> Response): Result<ApiSuccess<String?>> {
         return networkCallHandling(
             callBlock = callBlock,
-            handleResponseBody = {
-                if (it.isEmpty()) {
+            handleResponseBody = { bytes ->
+                if (bytes.isEmpty()) {
                     null
                 } else {
-                    it.decodeToString()
+                    bytes.decodeToString()
                 }
             }
         )
@@ -108,7 +111,9 @@ class WebApiCaller() : IWebApiCaller {
 
     companion object {
         const val NOT_NULL_BODY_EXPECTED_MESSAGE = "Not null or empty body response was expected!"
+        const val NULL_BODY_EXPECTED_MESSAGE = "Empty body response was expected!"
     }
 }
 
 class EmptyByteArrayResponseBodyException(message: String) : RuntimeException(message)
+class NonEmptyByteArrayResponseBodyException(message: String) : RuntimeException(message)
