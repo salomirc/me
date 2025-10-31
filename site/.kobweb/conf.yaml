@@ -1,6 +1,6 @@
 site:
   title: "Me"
-  basePath: "me"
+  basePath: ""
 
 server:
   files:
