@@ -16,8 +16,8 @@ import org.example.me.components.widgets.Lorem
 import org.example.me.components.widgets.PageTitle
 import org.example.me.components.widgets.Spacer
 import org.example.me.components.widgets.ThreeColumnsToRowContainer
-import org.example.me.repositories.ResponseState.ActiveResponseState.Failure
-import org.example.me.repositories.ResponseState.ActiveResponseState.Success
+import org.example.me.repositories.ResponseState.ActiveResponseState.*
+import org.example.me.repositories.ResponseState.Idle
 import org.example.me.view_models.ContactViewModel
 import org.jetbrains.compose.web.attributes.*
 import org.jetbrains.compose.web.css.*
@@ -183,7 +183,6 @@ fun ContactForm(
                 name = "send message",
                 onClick = {
                     coroutineScope.launch {
-
                         processEvent(
                             ContactViewModel.Event.SendEmail(
                                 name = name,
@@ -202,12 +201,19 @@ fun ContactForm(
                     name = ""
                     email = ""
                     message = ""
+                    coroutineScope.launch {
+                        processEvent(ContactViewModel.Event.ResetResponseState)
+                    }
                 }
             )
         }
 
         Div {
             when (model.sendMailResponseState) {
+                Idle -> {}
+                Loading -> {
+                    Text("Sending the message...")
+                }
                 is Success -> {
                     val response = model.sendMailResponseState.data
                     if (response.isSuccess) {
@@ -216,13 +222,8 @@ fun ContactForm(
                         Text("❌ Server failed to send the message!")
                     }
                 }
-
                 is Failure -> {
                     Text("❌ Sorry, something went wrong!")
-                }
-
-                else -> {
-                    Text("Loading users...")
                 }
             }
         }

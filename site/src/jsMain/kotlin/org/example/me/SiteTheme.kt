@@ -67,9 +67,11 @@ object SiteColors {
     val heavyDarkGray = Color.rgb(0x181818)
     val nearBlack = Color.rgb(0x06080B)
     val blueMarin = Color.rgb(0x4b959f)
+    val blueMarinDark = Color.rgb(0x004F56)
     val yellow = Color.rgb(0xfae88a)
     val ocru = Color.rgb(0xbab15b)
     val occruLight = Color.rgb(0xdad86c)
+    val red = Color.rgb(0x7D1913)
     val overlayTransparent = Color.rgba(255, 255, 255, 0.025f)
 }
 

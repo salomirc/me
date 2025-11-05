@@ -70,7 +70,7 @@ fun NavHeader(globalMessageContent: @Composable () -> Unit) {
         onMobileMenuOpen = { boolean ->
             isMobileMenuOpen = boolean
         },
-        globalMessageContent
+        globalMessageContent = globalMessageContent
     )
     MobileMenuRootContainer(
         navItems = navItems,

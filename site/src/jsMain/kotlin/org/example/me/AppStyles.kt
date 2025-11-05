@@ -60,13 +60,8 @@ class SiteStyleSheet(val sitePalette: SitePalette) : StyleSheet() {
         right(0.px)
         top(0.px)
         width(auto)
-        padding(16.px, 4.px, 0.px, 4.px)
+        padding(16.px, 0.px, 0.px, 0.px)
         backgroundColor(sitePalette.brand.primary)
-        borderBottom {
-            width = 8.px
-            style = LineStyle.Solid
-            color = sitePalette.brand.accent
-        }
         zIndex(1)
     }
 
@@ -75,6 +70,11 @@ class SiteStyleSheet(val sitePalette: SitePalette) : StyleSheet() {
         flexDirection(FlexDirection.Row)
         justifyContent(JustifyContent.End)
         alignItems(AlignItems.FlexEnd)
+        borderBottom {
+            width = 8.px
+            style = LineStyle.Solid
+            color = sitePalette.brand.accent
+        }
 
         // media query
         media(

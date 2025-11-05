@@ -27,11 +27,8 @@ class ContactViewModel(
     )
 
     sealed interface Event {
-        data class SendEmail(
-            val name: String,
-            val email: String,
-            val message: String
-        ): Event
+        data class SendEmail(val name: String, val email: String, val message: String): Event
+        data object ResetResponseState: Event
     }
 
     override suspend fun processEvent(event: Event) {
@@ -45,6 +42,17 @@ class ContactViewModel(
                     )
                 )
             }
+            is Event.ResetResponseState -> {
+                resetResponseState()
+            }
+        }
+    }
+
+    private fun resetResponseState() {
+        updateModelState { model ->
+            model.copy(
+                sendMailResponseState = Idle
+            )
         }
     }
 
