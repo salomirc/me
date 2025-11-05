@@ -77,7 +77,7 @@ object ContactStyleSheet: StyleSheet() {
 
 @Page
 @Composable
-@Layout(".components.layouts.PageMainLayout")
+@Layout(".components.layouts.PageFooterLayout")
 fun AppContainerLayoutScope.ContactPage() {
     val viewModel: ContactViewModel = remember { this.provideContactViewModel() }
     val model by viewModel.modelStateFlow.collectAsState()

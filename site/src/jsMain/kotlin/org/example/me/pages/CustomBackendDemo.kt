@@ -18,7 +18,7 @@ import org.jetbrains.compose.web.dom.Ul
 
 @Page
 @Composable
-@Layout(".components.layouts.PageMainLayout")
+@Layout(".components.layouts.PageFooterLayout")
 fun AppContainerLayoutScope.CustomBackendDemoPage() {
     val viewModel: CustomBackendDemoViewModel = remember { this.provideCustomBackendDemoViewModel() }
     val model by viewModel.modelStateFlow.collectAsState()

@@ -38,6 +38,7 @@ fun AppContainerLayoutScope.MainLayout(
     content: @Composable AppContainerLayoutScope.() -> Unit
 ) {
     val colorMode by ColorMode.currentState
+    val navItems = model.navItems
 
     LaunchedEffect(Unit) {
         processEvent(MainViewModel.Event.CollectMessageResourceIdWrapper)
@@ -48,6 +49,7 @@ fun AppContainerLayoutScope.MainLayout(
     }
 
     NavHeader(
+        navItems = navItems,
         globalMessageContent = {
             GlobalActionAndMessageToastSetUp(
                 colorMode = colorMode,

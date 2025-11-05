@@ -3,12 +3,15 @@ package org.example.me.view_models
 import kotlinx.coroutines.delay
 import org.example.me.error_handling.IErrorHandlerBroadcastService
 import org.example.me.error_handling.MessageResourceIdWrapper
+import org.example.me.models.ui.NavItem
 
 class MainViewModel (
-    private val broadcastService: IErrorHandlerBroadcastService
+    private val broadcastService: IErrorHandlerBroadcastService,
+    navItems: List<NavItem>
 ) : BaseViewModel<MainViewModel.Model, MainViewModel.Event>(
     model = Model(
-        messageResourceIdWrapper = null
+        messageResourceIdWrapper = null,
+        navItems = navItems
     )
 ) {
     suspend fun collectMessageResourceIdWrapper() {
@@ -28,7 +31,8 @@ class MainViewModel (
     }
 
     data class Model(
-        val messageResourceIdWrapper: MessageResourceIdWrapper?
+        val messageResourceIdWrapper: MessageResourceIdWrapper?,
+        val navItems: List<NavItem>
     )
 
     sealed interface Event {

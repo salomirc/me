@@ -21,7 +21,8 @@ data class SitePalette(
     val contourBackground: CSSColorValue,
     val brand: Brand,
     val surfaceVariant: CSSColorValue,
-    val overlayTransparent: CSSColorValue
+    val overlayTransparent: CSSColorValue,
+    val footerBackgroundColor: CSSColorValue
 ) {
     data class Brand(
         val primary: CSSColorValue,
@@ -41,7 +42,8 @@ object SitePalettes {
             accent = SiteColors.blueMarin,
         ),
         surfaceVariant = Colors.LightBlue,
-        overlayTransparent = Color.rgba(0, 0, 0, 0.5f)
+        overlayTransparent = Color.rgba(0, 0, 0, 0.5f),
+        footerBackgroundColor = SiteColors.mediumGray
     )
     val dark = SitePalette(
         siteColor = SiteColors.ultraLightGray,
@@ -54,7 +56,8 @@ object SitePalettes {
             accent = SiteColors.blueMarin,
         ),
         surfaceVariant = Colors.DarkSlateBlue,
-        overlayTransparent = Color.rgba(255, 255, 255, 0.2f)
+        overlayTransparent = Color.rgba(255, 255, 255, 0.2f),
+        footerBackgroundColor = SiteColors.heavyDarkGray
     )
 }
 
@@ -62,6 +65,7 @@ object SiteColors {
     val nearWhite = Color.rgb(0xFAFAFA)
     val ultraLightGray = Color.rgb(0xe8e8e8)
     val lightGray = Color.rgb(0xe8e8e8)
+    val mediumGray = Color.rgb(0xefefef)
     val gray = Color.rgb(0x696969)
     val darkGray = Color.rgb(0x363636)
     val heavyDarkGray = Color.rgb(0x181818)
@@ -69,6 +73,7 @@ object SiteColors {
     val blueMarin = Color.rgb(0x4b959f)
     val blueMarinDark = Color.rgb(0x004F56)
     val yellow = Color.rgb(0xfae88a)
+    val yellowIntense = Color.rgb(0xfdd445)
     val ocru = Color.rgb(0xbab15b)
     val occruLight = Color.rgb(0xdad86c)
     val red = Color.rgb(0x7D1913)

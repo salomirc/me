@@ -16,7 +16,7 @@ import org.jetbrains.compose.web.dom.Ul
 
 @Page
 @Composable
-@Layout(".components.layouts.PageMainLayout")
+@Layout(".components.layouts.PageFooterLayout")
 fun ExperiencePage(ctx: PageContext) {
     var colorMode by ColorMode.currentState
     Div(attrs = {

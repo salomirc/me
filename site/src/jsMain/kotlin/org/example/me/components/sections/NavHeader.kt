@@ -24,19 +24,9 @@ import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.dom.Div
 
 @Composable
-fun NavHeader(globalMessageContent: @Composable () -> Unit) {
+fun NavHeader(navItems: List<NavItem>, globalMessageContent: @Composable () -> Unit) {
     val ctx = rememberPageContext()
     val currentPath = ctx.route.path
-    val navItems = remember {
-        listOf(
-            NavItem(title = "Home", iconName = "home", target = "/"),
-            NavItem(title = "About", iconName = "address-card", target = "/about"),
-            NavItem(title = "Experience", iconName = "scissors", target = "/experience"),
-            NavItem(title = "Projects", iconName = "plane-departure", target = "/projects"),
-            NavItem(title = "Contact", iconName = "square-envelope", target = "/contact"),
-            NavItem(title = "Backend", iconName = "square-envelope", target = "/custom-backend-demo"),
-        )
-    }
 
     var isMobileMenuOpen by remember { mutableStateOf(false) }
     var selectedButton by remember { mutableStateOf(navItems[0]) }

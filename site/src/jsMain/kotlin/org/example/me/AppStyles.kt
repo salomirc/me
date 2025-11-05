@@ -5,6 +5,7 @@ import com.varabyte.kobweb.compose.css.FontWeight
 import com.varabyte.kobweb.compose.css.ObjectFit
 import com.varabyte.kobweb.compose.css.Visibility
 import com.varabyte.kobweb.compose.css.borderBottom
+import com.varabyte.kobweb.compose.css.borderTop
 import com.varabyte.kobweb.compose.css.boxShadow
 import com.varabyte.kobweb.compose.css.fontWeight
 import com.varabyte.kobweb.compose.css.objectFit
@@ -85,6 +86,22 @@ class SiteStyleSheet(val sitePalette: SitePalette) : StyleSheet() {
                 alignItems(AlignItems.Center)
             }
         }
+    }
+
+    val footerContainerClass by style {
+        borderTop {
+            width = 8.px
+            style = LineStyle.Solid
+            color = SiteColors.yellowIntense
+        }
+        paddingTop(24.px)
+        backgroundColor(sitePalette.footerBackgroundColor)
+        height(139.px)
+
+        display(DisplayStyle.Flex)
+        flexDirection(FlexDirection.Row)
+        justifyContent(JustifyContent.FlexEnd)
+        alignItems(AlignItems.FlexStart)
     }
 
     val barsMenuClass by style {

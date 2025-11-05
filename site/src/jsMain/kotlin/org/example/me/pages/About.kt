@@ -15,7 +15,7 @@ import org.jetbrains.compose.web.dom.Text
 
 @Page
 @Composable
-@Layout(".components.layouts.PageMainLayout")
+@Layout(".components.layouts.PageFooterLayout")
 fun AboutPage(ctx: PageContext) {
     var colorMode by ColorMode.currentState
     Div(attrs = {
