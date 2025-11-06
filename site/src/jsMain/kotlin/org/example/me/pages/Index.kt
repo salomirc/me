@@ -21,7 +21,7 @@ import org.jetbrains.compose.web.dom.Text
 
 @Page
 @Composable
-@Layout(".components.layouts.PageMainLayout")
+@Layout(".components.layouts.PageFooterLayout")
 fun HomePage(ctx: PageContext) {
     HomePageContainer {
         HelloComposable()

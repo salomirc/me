@@ -1,9 +1,10 @@
 package org.example.me.components.sections
 
 import androidx.compose.runtime.Composable
-import com.varabyte.kobweb.compose.css.ObjectFit
-import com.varabyte.kobweb.compose.css.objectFit
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import com.varabyte.kobweb.navigation.BasePath
+import com.varabyte.kobweb.silk.theme.colors.ColorMode
 import org.example.me.AppStyles.siteStyleSheet
 import org.example.me.components.widgets.SimpleTextButton
 import org.example.me.components.widgets.Spacer
@@ -16,14 +17,15 @@ fun FooterContainer(
     navItems: List<NavItem>,
     onNavItemButtonClick: (NavItem) -> Unit
 ) {
+    var colorMode: ColorMode by ColorMode.currentState
     Div(attrs = {
         classes(siteStyleSheet.footerContainerClass)
     }) {
-        Spacer(style = { flexGrow(4) })
+        Spacer(style = { flexGrow(2) })
         Div(attrs = {
             style {
                 textAlign("center")
-                fontSize(14.px)
+                fontSize(16.px)
             }
         }) {
             navItems.forEachIndexed { index, navItem ->
@@ -45,15 +47,14 @@ fun FooterContainer(
             }
         }
         Spacer(style = { flexGrow(1) })
+        val imageName = if (colorMode.isLight) "bithipster-logo.png" else "bithipster-logo-inverted.png"
         Img(
             alt = "bithipster-logo",
-            src = BasePath.prependTo("/images/bithipster-logo.png"),
+            src = BasePath.prependTo("/images/$imageName"),
             attrs = {
                 style {
-                    width(262.px)
-                    height(88.px)
-                    objectFit(ObjectFit.None)
-                    flexGrow(0)
+                    width(257.px)
+                    height(91.px)
                 }
             }
         )

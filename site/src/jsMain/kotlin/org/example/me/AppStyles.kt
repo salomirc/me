@@ -130,7 +130,7 @@ class SiteStyleSheet(val sitePalette: SitePalette) : StyleSheet() {
         flexDirection(FlexDirection.Row)
         justifyContent(JustifyContent.Center)
         alignItems(AlignItems.Center)
-        height(100.vh)
+        height(80.vh)
         padding(100.px, 0.px, 0.px, 0.px)
 
         // media query

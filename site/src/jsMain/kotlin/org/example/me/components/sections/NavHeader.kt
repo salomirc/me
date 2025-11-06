@@ -137,6 +137,7 @@ fun NavButtonsLandscape(
             text = navItem.title,
             onClick = { onClick(navItem) },
             isSelected = selectedButton == navItem,
+            textFontSize = 14.px,
             styles = listOf(siteStyleSheet.displayNoneMax640pxMediaQuery),
         )
     }
