@@ -36,7 +36,7 @@ class AppContainerLayoutScope {
             NavItem(title = "Experience", iconName = "scissors", target = "/experience"),
             NavItem(title = "Projects", iconName = "plane-departure", target = "/projects"),
             NavItem(title = "Contact", iconName = "square-envelope", target = "/contact"),
-            NavItem(title = "Backend", iconName = "square-envelope", target = "/custom-backend-demo"),
+//            NavItem(title = "Backend", iconName = "square-envelope", target = "/custom-backend-demo"),
         )
     )
 

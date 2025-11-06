@@ -81,7 +81,7 @@ fun AppEntry(content: @Composable () -> Unit) {
     SilkApp {
         val colorMode = ColorMode.current
         LaunchedEffect(colorMode) {
-            colorMode.saveToLocalStorage(org.example.me.COLOR_MODE_KEY)
+            colorMode.saveToLocalStorage(COLOR_MODE_KEY)
         }
 
         AppStyles.siteStyleSheet = SiteStyleSheet(colorMode.toSitePalette())

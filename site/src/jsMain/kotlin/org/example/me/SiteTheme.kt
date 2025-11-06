@@ -16,6 +16,7 @@ import org.jetbrains.compose.web.css.CSSColorValue
 data class SitePalette(
     val siteColor: CSSColorValue,
     val siteColorInverse: CSSColorValue,
+    val background: CSSColorValue,
     val nearBackground: CSSColorValue,
     val cobweb: CSSColorValue,
     val contourBackground: CSSColorValue,
@@ -43,7 +44,8 @@ object SitePalettes {
         ),
         surfaceVariant = Colors.LightBlue,
         overlayTransparent = Color.rgba(0, 0, 0, 0.5f),
-        footerBackgroundColor = SiteColors.mediumGray
+        footerBackgroundColor = SiteColors.mediumGray,
+        background = SiteColors.nearWhite
     )
     val dark = SitePalette(
         siteColor = SiteColors.ultraLightGray,
@@ -57,7 +59,8 @@ object SitePalettes {
         ),
         surfaceVariant = Colors.DarkSlateBlue,
         overlayTransparent = Color.rgba(255, 255, 255, 0.2f),
-        footerBackgroundColor = SiteColors.heavyDarkGray
+        footerBackgroundColor = SiteColors.heavyDarkGray,
+        background = SiteColors.nearBlack
     )
 }
 

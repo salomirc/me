@@ -61,6 +61,29 @@ fun TextButton(
 }
 
 @Composable
+fun SimpleTextButton(
+    text: String,
+    onClick: () -> Unit,
+    textFontSize: CSSNumeric? = null,
+) {
+    Button(attrs ={
+        type(ButtonType.Button)
+        classes(AppStyles.siteStyleSheet.simpleTextButtonClass)
+        onClick {
+            onClick()
+        }
+    }) {
+        Span(attrs = {
+            style {
+                textFontSize?.let { fontSize(it) }
+            }
+        }) {
+            Text(text)
+        }
+    }
+}
+
+@Composable
 fun IconButton(
     fontSize: CSSNumeric = 30.px,
     onClick: () -> Unit,

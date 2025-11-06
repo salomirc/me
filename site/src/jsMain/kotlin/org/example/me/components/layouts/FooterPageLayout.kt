@@ -6,10 +6,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import com.varabyte.kobweb.core.layout.Layout
 import com.varabyte.kobweb.core.rememberPageContext
+import org.example.me.AppStyles
 import org.example.me.components.sections.FooterContainer
 import org.example.me.view_models.MainViewModel
-import org.jetbrains.compose.web.css.minHeight
-import org.jetbrains.compose.web.css.vh
 import org.jetbrains.compose.web.dom.Div
 
 @Layout(".components.layouts.PageMainLayout")
@@ -33,9 +32,7 @@ fun AppContainerLayoutScope.FooterLayout(
 ) {
     val ctx = rememberPageContext()
     Div(attrs = {
-        style {
-            minHeight(80.vh)
-        }
+        classes(AppStyles.siteStyleSheet.footerLayoutContentContainer)
     }) {
         this@FooterLayout.content()
     }

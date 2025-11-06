@@ -88,20 +88,25 @@ class SiteStyleSheet(val sitePalette: SitePalette) : StyleSheet() {
         }
     }
 
+    val footerLayoutContentContainer by style {
+        minHeight(80.vh)
+    }
+
     val footerContainerClass by style {
+        display(DisplayStyle.Flex)
+        flexDirection(FlexDirection.Row)
+        justifyContent(JustifyContent.FlexEnd)
+        alignItems(AlignItems.FlexStart)
+
         borderTop {
             width = 8.px
             style = LineStyle.Solid
             color = SiteColors.yellowIntense
         }
         paddingTop(24.px)
+        height(20.vh)
         backgroundColor(sitePalette.footerBackgroundColor)
-        height(139.px)
-
-        display(DisplayStyle.Flex)
-        flexDirection(FlexDirection.Row)
-        justifyContent(JustifyContent.FlexEnd)
-        alignItems(AlignItems.FlexStart)
+        fontSize(18.px)
     }
 
     val barsMenuClass by style {
@@ -318,6 +323,13 @@ class SiteStyleSheet(val sitePalette: SitePalette) : StyleSheet() {
         backgroundColor(SiteColors.overlayTransparent)
         borderWidth(0.px)
         padding(16.px)
+        cursor("pointer")
+    }
+
+    val simpleTextButtonClass by style {
+        backgroundColor(Color.transparent)
+        borderWidth(0.px)
+        padding(4.px)
         cursor("pointer")
     }
 
