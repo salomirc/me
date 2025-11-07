@@ -1,16 +1,20 @@
 package org.example.me.components.widgets
 
 import androidx.compose.runtime.Composable
+import com.varabyte.kobweb.silk.theme.colors.ColorMode
+import org.example.me.SitePalette
 import org.example.me.SiteStyleSheet.Companion.screenBreakMinTo799px
-import org.example.me.components.widgets.ThreeColumnsToRowContainerStyles.box
-import org.example.me.components.widgets.ThreeColumnsToRowContainerStyles.boxOne
-import org.example.me.components.widgets.ThreeColumnsToRowContainerStyles.boxThree
-import org.example.me.components.widgets.ThreeColumnsToRowContainerStyles.boxTwo
+import org.example.me.toSitePalette
 import org.jetbrains.compose.web.css.*
 import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.Text
 
-object ThreeColumnsToRowContainerStyles: StyleSheet() {
+object ThreeColumnsToRowContainerStyles {
+    lateinit var styleSheet: ThreeColumnsToRowContainerStyleSheet
+}
+
+class ThreeColumnsToRowContainerStyleSheet(val sitePalette: SitePalette): StyleSheet() {
+
     val threeColumnsToRowContainer by style {
         display(DisplayStyle.Flex)
         flexDirection(FlexDirection.Row)
@@ -18,8 +22,8 @@ object ThreeColumnsToRowContainerStyles: StyleSheet() {
         alignItems(AlignItems.FlexStart)
         gap(1.6.cssRem)
 
-        padding(1.6.cssRem)
-        backgroundColor(Color.antiquewhite)
+//        padding(1.6.cssRem)
+//        backgroundColor(sitePalette.nearBackground)
 
         // media query
         media(
@@ -34,7 +38,7 @@ object ThreeColumnsToRowContainerStyles: StyleSheet() {
     }
 
     val box by style {
-        backgroundColor(Color.gold)
+        backgroundColor(sitePalette.nearBackground)
     }
 
     val boxOne by style {
@@ -92,26 +96,27 @@ fun ThreeColumnsToRowContainer(
     boxTwoClass: List<String>? = null,
     boxThreeClass: List<String>? = null
 ) {
-    Style(ThreeColumnsToRowContainerStyles)
+    ThreeColumnsToRowContainerStyles.styleSheet = ThreeColumnsToRowContainerStyleSheet(ColorMode.current.toSitePalette())
+    Style(ThreeColumnsToRowContainerStyles.styleSheet)
 
     Div(attrs = {
-        classes(ThreeColumnsToRowContainerStyles.threeColumnsToRowContainer)
+        classes(ThreeColumnsToRowContainerStyles.styleSheet.threeColumnsToRowContainer)
     }) {
-        fun getBoxClasses() = mutableListOf(box)
+        fun getBoxClasses() = mutableListOf(ThreeColumnsToRowContainerStyles.styleSheet.box)
         val boxOneClasses = getBoxClasses().apply {
             boxOneClass?.let { strings ->
                 this.addAll(strings)
-            } ?: add(boxOne)
+            } ?: add(ThreeColumnsToRowContainerStyles.styleSheet.boxOne)
         }
         val boxTwoClasses = getBoxClasses().apply {
             boxTwoClass?.let { strings ->
                 this.addAll(strings)
-            } ?: add(boxTwo)
+            } ?: add(ThreeColumnsToRowContainerStyles.styleSheet.boxTwo)
         }
         val boxThreeClasses = getBoxClasses().apply {
             boxThreeClass?.let { strings ->
                 this.addAll(strings)
-            } ?: add(boxThree)
+            } ?: add(ThreeColumnsToRowContainerStyles.styleSheet.boxThree)
         }
         Div(attrs = {
             classes(boxOneClasses)

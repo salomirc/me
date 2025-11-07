@@ -48,10 +48,11 @@ class SiteStyleSheet(val sitePalette: SitePalette) : StyleSheet() {
 
         "input, textarea" style {
             border {
-                width = 1.px
+                width = 0.px
                 style = LineStyle.Solid
                 color = SiteColors.lightGray
             }
+            backgroundColor(sitePalette.background)
         }
     }
 
@@ -104,9 +105,24 @@ class SiteStyleSheet(val sitePalette: SitePalette) : StyleSheet() {
             color = SiteColors.yellowIntense
         }
         paddingTop(24.px)
-        height(20.vh)
+        minHeight(20.vh)
         backgroundColor(sitePalette.footerBackgroundColor)
-        fontSize(18.px)
+        fontSize(16.px)
+
+        // media query
+        media(
+            query = screenBreakMinTo799px
+        ) {
+            self style {
+                flexDirection(FlexDirection.Column)
+                justifyContent(JustifyContent.FlexStart)
+                alignItems(AlignItems.Center)
+                gap(10.px)
+
+                padding(8.px)
+                fontSize(12.px)
+            }
+        }
     }
 
     val barsMenuClass by style {
@@ -181,6 +197,7 @@ class SiteStyleSheet(val sitePalette: SitePalette) : StyleSheet() {
         )
         objectFit(ObjectFit.Contain)
         maxWidth(75.percent)
+        maxHeight(45.vh)
 
         // media query
         media(
@@ -208,7 +225,7 @@ class SiteStyleSheet(val sitePalette: SitePalette) : StyleSheet() {
             query = screenBreakMinTo589px
         ) {
             self style {
-                fontSize(4.vw)
+                fontSize(6.vw)
             }
         }
 
@@ -376,6 +393,14 @@ class SiteStyleSheet(val sitePalette: SitePalette) : StyleSheet() {
                 display(DisplayStyle.None)
             }
         }
+    }
+
+    val contactFormButtonClass by style {
+        borderWidth(0.px)
+        padding(8.px)
+        display(DisplayStyle.InlineBlock)
+        backgroundColor(sitePalette.brand.accent)
+        color(SiteColors.ultraLightGray)
     }
 
     val displayNone by style {

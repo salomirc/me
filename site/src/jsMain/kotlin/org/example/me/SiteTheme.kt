@@ -27,7 +27,8 @@ data class SitePalette(
 ) {
     data class Brand(
         val primary: CSSColorValue,
-        val accent: CSSColorValue
+        val accent: CSSColorValue,
+        val contrast: CSSColorValue
     )
 }
 
@@ -41,6 +42,7 @@ object SitePalettes {
         brand = SitePalette.Brand(
             primary = SiteColors.darkGray,
             accent = SiteColors.blueMarin,
+            contrast = SiteColors.yellowIntense,
         ),
         surfaceVariant = Colors.LightBlue,
         overlayTransparent = Color.rgba(0, 0, 0, 0.5f),
@@ -56,6 +58,7 @@ object SitePalettes {
         brand = SitePalette.Brand(
             primary = SiteColors.heavyDarkGray,
             accent = SiteColors.blueMarin,
+            contrast = SiteColors.yellowDark,
         ),
         surfaceVariant = Colors.DarkSlateBlue,
         overlayTransparent = Color.rgba(255, 255, 255, 0.2f),
@@ -77,6 +80,7 @@ object SiteColors {
     val blueMarinDark = Color.rgb(0x004F56)
     val yellow = Color.rgb(0xfae88a)
     val yellowIntense = Color.rgb(0xfdd445)
+    val yellowDark = Color.rgb(0x786100)
     val ocru = Color.rgb(0xbab15b)
     val occruLight = Color.rgb(0xdad86c)
     val red = Color.rgb(0x7D1913)

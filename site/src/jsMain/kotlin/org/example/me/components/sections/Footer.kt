@@ -25,7 +25,6 @@ fun FooterContainer(
         Div(attrs = {
             style {
                 textAlign("center")
-                fontSize(16.px)
             }
         }) {
             navItems.forEachIndexed { index, navItem ->
@@ -46,18 +45,18 @@ fun FooterContainer(
                 Text("Copyright © 2025 Ciprian Salomir - Web Design by BitHipster")
             }
         }
-        Spacer(style = { flexGrow(1) })
+        Spacer(style = { flexGrow(2) })
         val imageName = if (colorMode.isLight) "bithipster-logo.png" else "bithipster-logo-inverted.png"
         Img(
             alt = "bithipster-logo",
             src = BasePath.prependTo("/images/$imageName"),
             attrs = {
                 style {
-                    width(257.px)
-                    height(91.px)
+                    width(129.px)
+                    height(46.px)
                 }
             }
         )
-        Spacer(style = { flexGrow(1) })
+        Spacer(width = 85.px)
     }
 }

@@ -247,9 +247,7 @@ fun ContactFormButton(
         onClick {
             onClick()
         }
-        style {
-            display(DisplayStyle.InlineBlock)
-        }
+        classes(AppStyles.siteStyleSheet.contactFormButtonClass)
     }) {
         Text(text)
     }
