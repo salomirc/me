@@ -149,7 +149,7 @@ fun MobileBarsMenuButton(
 ) {
     IconButton(
         id = "barsMenuButton",
-        styles = listOf(siteStyleSheet.barsMenuClass),
+        classes = listOf(siteStyleSheet.barsMenuClass),
         onClick = onClick,
         inlineStyle = {
             backgroundColor(Color.transparent)

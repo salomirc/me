@@ -127,7 +127,7 @@ fun CloseButtonContainer(
     }) {
         IconButton(
             id = "xMarkIconButton",
-            styles = listOf(siteStyleSheet.simpleIconButtonClass),
+            classes = listOf(siteStyleSheet.simpleIconButtonClass),
             fontSize = 16.px,
             onClick = onCloseButtonClick,
             inlineStyle = {

@@ -29,32 +29,6 @@ object AnimationTiming {
 }
 
 class SiteStyleSheet(val sitePalette: SitePalette) : StyleSheet() {
-    init {
-        "html" style {
-            // 62.5% of 16px = 10px
-            fontSize(62.5.percent)
-        }
-
-        "body" style {
-            // 160% of 10px = 16px
-            fontSize(160.percent)
-            fontFamily("system-ui")
-        }
-
-        "p, ul" style {
-            fontSize(1.6.cssRem)
-            lineHeight(2.2.cssRem)
-        }
-
-        "input, textarea" style {
-            border {
-                width = 0.px
-                style = LineStyle.Solid
-                color = SiteColors.lightGray
-            }
-            backgroundColor(sitePalette.background)
-        }
-    }
 
     val navBarContainer by style {
         position(Position.Fixed)
@@ -107,7 +81,6 @@ class SiteStyleSheet(val sitePalette: SitePalette) : StyleSheet() {
         paddingTop(24.px)
         minHeight(20.vh)
         backgroundColor(sitePalette.footerBackgroundColor)
-        fontSize(16.px)
 
         // media query
         media(
@@ -350,6 +323,10 @@ class SiteStyleSheet(val sitePalette: SitePalette) : StyleSheet() {
         cursor("pointer")
     }
 
+    val footerButtonClass by style {
+        fontWeight(FontWeight.Normal)
+    }
+
     val textButtonClassSelected by style {
         backgroundColor(sitePalette.brand.accent)
         color(SiteColors.yellow)
@@ -403,9 +380,66 @@ class SiteStyleSheet(val sitePalette: SitePalette) : StyleSheet() {
         color(SiteColors.ultraLightGray)
     }
 
+    val threeColumnContentClass by style {
+        padding(24.px)
+        margin(0.px)
+    }
+
+    val contactFormContainerClass by style {
+        display(DisplayStyle.Flex)
+        flexDirection(FlexDirection.Column)
+        justifyContent(JustifyContent.Center)
+        alignItems(AlignItems.FlexStart)
+        gap(8.px)
+    }
+
     val displayNone by style {
         display(DisplayStyle.None)
     }
+
+    init {
+        "html" style {
+            // 62.5% of 16px = 10px
+            fontSize(62.5.percent)
+        }
+
+        "body" style {
+            // 1.6 of 10px = 16px
+            fontSize(1.6.cssRem)
+            fontFamily("system-ui")
+        }
+
+        "p, ul" style {
+            lineHeight(2.2.cssRem)
+        }
+
+        "input, textarea" style {
+            border {
+                width = 0.px
+                style = LineStyle.Solid
+                color = SiteColors.lightGray
+            }
+            backgroundColor(sitePalette.background)
+        }
+    }
+
+//    init {
+//        media(
+//            query = screenBreakMinTo589px
+//        ) {
+//            "body" style {
+//                fontSize(2.cssRem)
+//            }
+//
+//            "p, ul" style {
+//                lineHeight(2.8.cssRem)
+//            }
+//
+//            className(footerButtonClass) style {
+//                fontSize(2.cssRem)
+//            }
+//        }
+//    }
 
     companion object {
         val <TBuilder> GenericStyleSheetBuilder<TBuilder>.screenBreakMinTo400px: CSSMediaQuery

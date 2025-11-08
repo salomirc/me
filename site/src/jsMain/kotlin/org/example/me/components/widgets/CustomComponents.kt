@@ -40,12 +40,12 @@ fun TextButton(
     isSelected: Boolean,
     onClick: () -> Unit
 ) {
-    val styles: MutableList<String> = mutableListOf(AppStyles.siteStyleSheet.textButtonClass).apply {
+    val classes: MutableList<String> = mutableListOf(AppStyles.siteStyleSheet.textButtonClass).apply {
         if (isSelected) add(AppStyles.siteStyleSheet.textButtonClassSelected)
     }
     Button(attrs ={
         type(ButtonType.Button)
-        classes(styles)
+        classes(classes)
         onClick {
             onClick()
         }
@@ -64,22 +64,22 @@ fun TextButton(
 fun SimpleTextButton(
     text: String,
     onClick: () -> Unit,
-    textFontSize: CSSNumeric? = null,
+    classes: List<String>? = null,
 ) {
     Button(attrs ={
         type(ButtonType.Button)
-        classes(AppStyles.siteStyleSheet.simpleTextButtonClass)
+        classes(
+            mutableListOf(AppStyles.siteStyleSheet.simpleTextButtonClass).apply {
+                classes?.let {
+                    addAll(it)
+                }
+            }
+        )
         onClick {
             onClick()
         }
     }) {
-        Span(attrs = {
-            style {
-                textFontSize?.let { fontSize(it) }
-            }
-        }) {
-            Text(text)
-        }
+        Text(text)
     }
 }
 
@@ -88,12 +88,12 @@ fun IconButton(
     fontSize: CSSNumeric = 30.px,
     onClick: () -> Unit,
     id: String? = null,
-    styles: List<String>? = null,
+    classes: List<String>? = null,
     inlineStyle: (StyleScope.() -> Unit)? = null,
     content: @Composable () -> Unit
 ) {
-    val styles: MutableList<String> = mutableListOf(AppStyles.siteStyleSheet.iconButtonClass).apply {
-        styles?.let { this.addAll(it) }
+    val styles = mutableListOf(AppStyles.siteStyleSheet.iconButtonClass).apply {
+        classes?.let { this.addAll(it) }
     }
     Button(attrs ={
         id?.let { s ->
@@ -128,13 +128,13 @@ fun TextIconButton(
     styles: List<String>? = null,
     inlineStyle: (StyleScope.() -> Unit)? = null
 ) {
-    val styles: MutableList<String> = mutableListOf(AppStyles.siteStyleSheet.textIconButtonClass).apply {
+    val classes: MutableList<String> = mutableListOf(AppStyles.siteStyleSheet.textIconButtonClass).apply {
         styles?.let { this.addAll(it) }
         if (isSelected) add(AppStyles.siteStyleSheet.textIconButtonClassSelected)
     }
     Button(attrs ={
         type(ButtonType.Button)
-        classes(styles)
+        classes(classes)
         onClick {
             onClick()
         }
@@ -209,7 +209,7 @@ fun PageTitle(
 ) {
     H1(attrs = {
         style {
-            fontSize(28.px)
+            fontSize(2.8.cssRem)
         }
     }) {
         Text(text)

@@ -22,17 +22,12 @@ class ThreeColumnsToRowContainerStyleSheet(val sitePalette: SitePalette): StyleS
         alignItems(AlignItems.FlexStart)
         gap(1.6.cssRem)
 
-//        padding(1.6.cssRem)
-//        backgroundColor(sitePalette.nearBackground)
-
         // media query
         media(
             query = screenBreakMinTo799px
         ) {
             self style {
                 flexDirection(FlexDirection.Column)
-                padding(0.px)
-                backgroundColor(Color.transparent)
             }
         }
     }

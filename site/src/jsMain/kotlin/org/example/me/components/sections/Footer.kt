@@ -32,7 +32,8 @@ fun FooterContainer(
                     text = navItem.title,
                     onClick = {
                         onNavItemButtonClick(navItem)
-                    }
+                    },
+                    classes = listOf(siteStyleSheet.footerButtonClass)
                 )
                 if (index < navItems.lastIndex) {
                     Span {

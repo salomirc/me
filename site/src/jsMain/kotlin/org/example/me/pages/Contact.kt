@@ -8,7 +8,6 @@ import com.varabyte.kobweb.core.Page
 import com.varabyte.kobweb.core.layout.Layout
 import com.varabyte.kobweb.silk.theme.colors.ColorMode
 import kotlinx.coroutines.launch
-import kotlinx.serialization.Serializable
 import org.example.me.AppStyles
 import org.example.me.SiteStyleSheet.Companion.screenBreakMinTo799px
 import org.example.me.components.layouts.AppContainerLayoutScope
@@ -117,10 +116,8 @@ fun Contact(
 
 @Composable
 fun ContentOne() {
-    Div(attrs = {
-        style {
-            padding(32.px)
-        }
+    P(attrs = {
+        classes(AppStyles.siteStyleSheet.threeColumnContentClass)
     }) {
         Text(Lorem.lenght50)
     }
@@ -140,15 +137,10 @@ fun ContactForm(
     var colorMode: ColorMode by ColorMode.currentState
 
     Div(attrs = {
-        style {
-            display(DisplayStyle.Flex)
-            flexDirection(FlexDirection.Column)
-            justifyContent(JustifyContent.Center)
-            alignItems(AlignItems.FlexStart)
-            gap(8.px)
-
-            padding(32.px)
-        }
+        classes(
+            AppStyles.siteStyleSheet.contactFormContainerClass,
+            AppStyles.siteStyleSheet.threeColumnContentClass
+        )
     }) {
         FieldName("Name :")
         Input(type = InputType.Text, attrs = {
@@ -252,7 +244,4 @@ fun ContactFormButton(
         Text(text)
     }
 }
-
-@Serializable
-data class ContactData(val name: String, val email: String, val message: String)
 
