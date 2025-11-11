@@ -43,18 +43,19 @@ fun FooterContainer(
             }
             Br {}
             Span {
-                Text("Copyright © 2025 Ciprian Salomir - Web Design by BitHipster")
+                Text("Copyright © 2025 Ciprian Salomir - Web Design by BitRabbit")
             }
         }
         Spacer(style = { flexGrow(2) })
-        val imageName = if (colorMode.isLight) "bithipster-logo.png" else "bithipster-logo-inverted.png"
+//        val imageName = if (colorMode.isLight) "bithipster-logo.png" else "bithipster-logo-inverted.png"
         Img(
             alt = "bithipster-logo",
-            src = BasePath.prependTo("/images/$imageName"),
+//            src = BasePath.prependTo("/images/$imageName"),
+            src = BasePath.prependTo("/images/bit-rabbit-logo.png"),
             attrs = {
                 style {
-                    width(129.px)
-                    height(46.px)
+                    width(150.px)
+                    height(64.px)
                 }
             }
         )

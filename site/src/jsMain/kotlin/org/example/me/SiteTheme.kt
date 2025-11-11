@@ -36,7 +36,7 @@ object SitePalettes {
     val light = SitePalette(
         siteColor = Colors.Black,
         siteColorInverse = Colors.White,
-        nearBackground = Color.rgb(0xe4e4e4),
+        nearBackground = Color.rgb(0xe8e8e8),
         cobweb = Colors.LightGray,
         contourBackground = Colors.White,
         brand = SitePalette.Brand(
@@ -52,7 +52,7 @@ object SitePalettes {
     val dark = SitePalette(
         siteColor = SiteColors.ultraLightGray,
         siteColorInverse = Colors.Black,
-        nearBackground = Color.rgb(0x13171F),
+        nearBackground = Color.rgb(0x191c24),
         cobweb = Colors.LightGray.inverted(),
         contourBackground = SiteColors.lightGray,
         brand = SitePalette.Brand(

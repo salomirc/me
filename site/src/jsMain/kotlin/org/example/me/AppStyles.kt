@@ -375,9 +375,16 @@ class SiteStyleSheet(val sitePalette: SitePalette) : StyleSheet() {
     val contactFormButtonClass by style {
         borderWidth(0.px)
         padding(8.px)
+        borderRadius(4.px)
         display(DisplayStyle.InlineBlock)
         backgroundColor(sitePalette.brand.accent)
         color(SiteColors.ultraLightGray)
+
+        // hover selector for a class
+        self + hover style { // self is a selector for `container`
+            backgroundColor(SiteColors.blueMarinDark)
+            cursor("pointer")
+        }
     }
 
     val threeColumnContentClass by style {
