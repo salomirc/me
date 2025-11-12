@@ -7,9 +7,8 @@ import com.varabyte.kobweb.core.Page
 import com.varabyte.kobweb.core.PageContext
 import com.varabyte.kobweb.core.layout.Layout
 import com.varabyte.kobweb.silk.theme.colors.ColorMode
-import org.example.me.AppStyles
+import org.example.me.components.widgets.PageContainer
 import org.example.me.components.widgets.PageTitle
-import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.P
 import org.jetbrains.compose.web.dom.Text
 
@@ -18,9 +17,7 @@ import org.jetbrains.compose.web.dom.Text
 @Layout(".components.layouts.PageFooterLayout")
 fun AboutPage(ctx: PageContext) {
     var colorMode by ColorMode.currentState
-    Div(attrs = {
-        classes(AppStyles.siteStyleSheet.pageContainerClass)
-    }) {
+    PageContainer {
         PageTitle("About me")
         P {
             Text("I am an enthusiastic, self-motivated, Android Developer with Kotlin and Java. I started" +

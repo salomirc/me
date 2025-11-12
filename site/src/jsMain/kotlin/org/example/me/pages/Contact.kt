@@ -11,12 +11,11 @@ import kotlinx.coroutines.launch
 import org.example.me.AppStyles
 import org.example.me.SiteStyleSheet.Companion.screenBreakMinTo799px
 import org.example.me.components.layouts.AppContainerLayoutScope
-import org.example.me.components.widgets.Lorem
-import org.example.me.components.widgets.PageTitle
-import org.example.me.components.widgets.Spacer
-import org.example.me.components.widgets.ThreeColumnsToRowContainer
+import org.example.me.components.widgets.*
 import org.example.me.repositories.ResponseState.ActiveResponseState.*
 import org.example.me.repositories.ResponseState.Idle
+import org.example.me.utils.exportPageToPdf
+import org.example.me.utils.printPage
 import org.example.me.view_models.ContactViewModel
 import org.jetbrains.compose.web.attributes.*
 import org.jetbrains.compose.web.css.*
@@ -76,7 +75,7 @@ object ContactStyleSheet: StyleSheet() {
 
 @Page
 @Composable
-@Layout(".components.layouts.PageFooterLayout")
+@Layout(".components.layouts.AppContainerLayout")
 fun AppContainerLayoutScope.ContactPage() {
     val viewModel: ContactViewModel = remember { this.provideContactViewModel() }
     val model by viewModel.modelStateFlow.collectAsState()
@@ -93,9 +92,8 @@ fun Contact(
 ) {
     Style(ContactStyleSheet)
 
-    Div(attrs = {
-        classes(AppStyles.siteStyleSheet.pageContainerClass)
-    }) {
+    PrintOptions()
+    PageContainer {
         PageTitle("Contact")
         ThreeColumnsToRowContainer(
             boxOneClass = listOf(ContactStyleSheet.boxOne),
@@ -108,10 +106,52 @@ fun Contact(
                 ContentOne()
             },
             contentThree = {
-                ContentOne()
+                Div(attrs = {
+                    id("pageContainer")
+                    style {
+                        display(DisplayStyle.Flex)
+                        flexDirection(FlexDirection.Column)
+                        alignItems(AlignItems.Center)
+                    }
+                }) {
+                    repeat(100) { index ->
+                        PdfAvoidBreak {
+                            NumberBox(
+                                text = "$index"
+                            )
+                        }
+                    }
+                }
             }
         )
     }
+}
+
+@Composable
+fun PrintOptions() {
+    Div {
+        Button(attrs = {
+            type(ButtonType.Button)
+            style { marginRight(8.px) }
+            onClick {
+                exportPageToPdf("page_content", "MyPortfolio.pdf")
+            }
+            classes(AppStyles.siteStyleSheet.contactFormButtonClass)
+        }) {
+            Text("Download as PDF")
+        }
+        Button(attrs = {
+            type(ButtonType.Button)
+            onClick {
+                printPage()
+            }
+            classes(AppStyles.siteStyleSheet.contactFormButtonClass)
+        }) {
+            Text("Print / Save as PDF")
+        }
+
+    }
+    Spacer { height(16.px) }
 }
 
 @Composable
