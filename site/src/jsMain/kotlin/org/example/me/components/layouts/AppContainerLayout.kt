@@ -6,7 +6,6 @@ import com.varabyte.kobweb.core.layout.Layout
 import org.example.me.api_caller.WebApiCaller
 import org.example.me.error_handling.ErrorHandler
 import org.example.me.error_handling.ErrorHandlerBroadcastService
-import org.example.me.models.ui.NavItem
 import org.example.me.repositories.BlogRepository
 import org.example.me.repositories.SendMailRepository
 import org.example.me.use_cases.GetUsersUseCase
@@ -29,15 +28,7 @@ class AppContainerLayoutScope {
 
     val apiCaller = WebApiCaller()
     val mainViewModel = MainViewModel(
-        broadcastService = ErrorHandlerBroadcastService,
-        navItems = listOf(
-            NavItem(title = "Home", iconName = "home", target = "/"),
-            NavItem(title = "About", iconName = "address-card", target = "/about"),
-            NavItem(title = "Experience", iconName = "scissors", target = "/experience"),
-            NavItem(title = "Projects", iconName = "plane-departure", target = "/projects"),
-            NavItem(title = "Contact", iconName = "square-envelope", target = "/contact"),
-//            NavItem(title = "Backend", iconName = "square-envelope", target = "/custom-backend-demo"),
-        )
+        broadcastService = ErrorHandlerBroadcastService
     )
 
     fun provideMainViewModel(): MainViewModel = mainViewModel
