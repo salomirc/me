@@ -1,6 +1,5 @@
 import com.varabyte.kobweb.gradle.application.util.configAsKobwebApplication
 import kotlinx.html.link
-import kotlinx.html.script
 
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
@@ -23,9 +22,6 @@ kobweb {
                 link(rel = "stylesheet", href = basePath.prependTo("/css/normalize.css"))
                 link(rel = "stylesheet", href = "https://fonts.googleapis.com/css?family=Sofia")
                 link(rel = "stylesheet", href = "https://fonts.googleapis.com/css?family=Bitcount+Grid+Single")
-
-                // ✅ Add the html2pdf.js script
-                script(src = "https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.12.1/html2pdf.bundle.min.js") {}
             }
         }
     }

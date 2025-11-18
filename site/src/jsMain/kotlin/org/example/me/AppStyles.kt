@@ -111,9 +111,7 @@ class SiteStyleSheet(val sitePalette: SitePalette) : StyleSheet() {
     }
 
     val pageContainerClass by style {
-        width(210.mm)
-        padding(16.px)
-        backgroundColor(Color.antiquewhite)
+        padding(100.px, 16.px, 16.px, 16.px)
     }
 
     val homePageContainerClass by style {

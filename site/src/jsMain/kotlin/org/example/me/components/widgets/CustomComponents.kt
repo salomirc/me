@@ -197,7 +197,6 @@ fun PageContainer(
     content: @Composable () -> Unit
 ) {
     Div(attrs = {
-        id("page_content")
         classes(AppStyles.siteStyleSheet.pageContainerClass)
     }) {
         content()
@@ -216,35 +215,3 @@ fun PageTitle(
         Text(text)
     }
 }
-
-/**
- * Inserts a forced page break for html2pdf.js exports.
- *
- * Usage: PdfPageBreak()  start a new PDF page below
- */
-@Composable
-fun PdfPageBreak() {
-    Div(
-        attrs = {
-            classes("pdf-break-before")
-            style {
-                // Ensure the break has zero height but still registers in layout
-                height(0.px)
-                width(100.percent)
-                display(DisplayStyle.Block)
-            }
-        }
-    )
-}
-
-@Composable
-fun PdfAvoidBreak(content: @Composable () -> Unit) {
-    Div(
-        attrs = {
-            classes("pdf-avoid-break")
-        }
-    ) {
-        content()
-    }
-}
-
