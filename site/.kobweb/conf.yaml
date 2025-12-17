@@ -1,6 +1,6 @@
 site:
   title: "Ciprian Web Site"
-  basePath: "quickresumebuilder"
+  basePath: ""
 
 server:
   files:
